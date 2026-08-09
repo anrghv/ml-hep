@@ -134,8 +134,8 @@ files_VVV = nanoGetSampleFiles(mcDirectory, 'ZZZ') + \
 
 print("\n------------------------------------------------------------------------------")
 
-samples['ZHgg'] = {  # 60 files         ---- DONE
-    'name': files_ZHgg[0][1],}
+# samples['ZHgg'] = {  # 60 files         ---- DONE
+#     'name': files_ZHgg[0][1],}
 
 samples['ZHllHgg'] = { # 9984 files
     'name': files_ZHllHgg[0][1],}   
@@ -143,26 +143,26 @@ samples['ZHllHgg'] = { # 9984 files
 samples['ggZHllHgg'] = { # 9946 files
     'name': files_ggZHllHgg[0][1],} 
 
-samples['DY'] = { #253 FILES
-    'name': files_DY[0][1] + files_DY[1][1],}
+# samples['DY'] = { #253 FILES
+#     'name': files_DY[0][1] + files_DY[1][1],}
 
-samples['top'] = { # 528 files
-    'name': files_top[0][1] + files_top[1][1] + files_top[2][1] + files_top[3][1] + files_top[4][1] + files_top[5][1],}   
+# samples['top'] = { # 528 files
+#     'name': files_top[0][1] + files_top[1][1] + files_top[2][1] + files_top[3][1] + files_top[4][1] + files_top[5][1],}   
 
-samples['Vg'] = { # 102 files -------------------- DONE 
-    'name': files_Vg[0][1] + files_Vg[1][1],}    
+# samples['Vg'] = { # 102 files -------------------- DONE 
+#     'name': files_Vg[0][1] + files_Vg[1][1],}    
 
-samples['VgS'] = { # 215 files
-    'name': files_VgS[0][1] + files_VgS[1][1] + files_VgS[2][1],}   
+# samples['VgS'] = { # 215 files
+#     'name': files_VgS[0][1] + files_VgS[1][1] + files_VgS[2][1],}   
 
-samples['WZ'] = { # 135 files
-    'name': files_WZ[0][1] + files_WZ[1][1],}
+# samples['WZ'] = { # 135 files
+#     'name': files_WZ[0][1] + files_WZ[1][1],}
 
-samples['ZZ'] = { # 233 files
-    'name': files_ZZ[0][1] + files_ZZ[1][1] + files_ZZ[2][1],}    
+# samples['ZZ'] = { # 233 files
+#     'name': files_ZZ[0][1] + files_ZZ[1][1] + files_ZZ[2][1],}    
 
-samples['VVV'] = { # 39 files                   DONE 
-    'name': files_VVV[0][1] + files_VVV[1][1] + files_VVV[2][1] + files_VVV[3][1],}
+# samples['VVV'] = { # 39 files                   DONE 
+#     'name': files_VVV[0][1] + files_VVV[1][1] + files_VVV[2][1] + files_VVV[3][1],}
 
 print("Number of samples:", len(samples.keys()))
 

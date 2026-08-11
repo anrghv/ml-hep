@@ -3,6 +3,19 @@
 
 using namespace ROOT::VecOps;
 
+
+template<typename T>
+T Alt(const RVec<T>& v, size_t i, T def) {
+    return i < v.size() ? v[i] : def;
+}
+
+RVec<double> LogVec(const RVec<double>& vec){
+    RVec<double> out;
+    out.reserve(vec.size());
+    for (auto const& el : vec) out.push_back(TMath::Log(el));
+    return out;
+}
+
 bool bveto(const RVec<float>& CleanJet_pt, const RVec<float>& CleanJet_eta,
            const RVec<int>& CleanJet_jetIdx, const RVec<float>& Jet_btagDeepB){
 
@@ -79,5 +92,69 @@ DijetVars dijet_qgl_vars(const RVec<float>& pt, const RVec<float>& eta,
     v.drjj = ROOT::VecOps::DeltaR(eta[idx[0]], eta[idx[1]], phi[idx[0]], phi[idx[1]]);
     return v;
 }
+
+
+bool breq(const RVec<float>& CleanJet_pt, const RVec<float>& CleanJet_eta,
+          const RVec<int>& CleanJet_jetIdx, const RVec<float>& Jet_btagDeepB) {
+    for (size_t i = 0; i < CleanJet_pt.size(); i++) {
+        if (CleanJet_pt[i] <= 30) continue;
+        if (std::abs(CleanJet_eta[i]) >= 2.5) continue;
+        int jetIdx = CleanJet_jetIdx[i];
+        if (Jet_btagDeepB[jetIdx] > 0.4168) return true;
+    }
+    return false;
+}
  
+double bVetoSF(const RVec<float>& CleanJet_pt, const RVec<float>& CleanJet_eta,
+               const RVec<int>& CleanJet_jetIdx, const RVec<float>& Jet_btagSF_deepcsv_shape) {
+    double sum = 0.;
+    for (size_t i = 0; i < CleanJet_pt.size(); i++) {
+        bool inRange = CleanJet_pt[i] > 20 && std::abs(CleanJet_eta[i]) < 2.5;
+        sum += inRange ? TMath::Log(Jet_btagSF_deepcsv_shape[CleanJet_jetIdx[i]]) : TMath::Log(1.0);
+    }
+    return TMath::Exp(sum);
+}
+ 
+double bReqSF(const RVec<float>& CleanJet_pt, const RVec<float>& CleanJet_eta,
+              const RVec<int>& CleanJet_jetIdx, const RVec<float>& Jet_btagSF_deepcsv_shape) {
+    double sum = 0.;
+    for (size_t i = 0; i < CleanJet_pt.size(); i++) {
+        bool inRange = CleanJet_pt[i] > 30 && std::abs(CleanJet_eta[i]) < 2.5;
+        sum += inRange ? TMath::Log(Jet_btagSF_deepcsv_shape[CleanJet_jetIdx[i]]) : TMath::Log(1.0);
+    }
+    return TMath::Exp(sum);
+}
+ 
+bool topcr(float mtw2, float mll, bool zeroJet, bool bVetoFlag, bool bReqFlag) {
+    return mtw2 > 30 && mll > 50 && ((zeroJet && !bVetoFlag) || bReqFlag);
+}
+ 
+double btagSF(bool bVetoFlag, bool topcrFlag, bool zeroJetFlag,
+              double bVetoSFval, double bReqSFval) {
+    return (bVetoFlag || (topcrFlag && zeroJetFlag)) * bVetoSFval
+         + (topcrFlag && !zeroJetFlag) * bReqSFval;
+}
+ 
+double jet_PUIDSF(const RVec<int>& Jet_jetId, const RVec<float>& Jet_PUIDSF_loose) {
+    double sum = 0.;
+    for (size_t i = 0; i < Jet_jetId.size(); i++) {
+        if (Jet_jetId[i] >= 2) sum += TMath::Log(Jet_PUIDSF_loose[i]);
+    }
+    return TMath::Exp(sum);
+}
+ 
+double lepWPCut(const RVec<int>& Lepton_pdgId, const RVec<int>& Lepton_muonIdx,
+                 const RVec<float>& Muon_mvaTTH, const RVec<float>& Lepton_mvaTTH_UL,
+                 float LepCut2l_branch) {
+    bool ele0 = std::abs(Lepton_pdgId[0])==11 && Lepton_mvaTTH_UL[0] > 0.90;
+    bool mu0  = std::abs(Lepton_pdgId[0])==13 && Muon_mvaTTH[Lepton_muonIdx[0]] > 0.82;
+    bool ele1 = std::abs(Lepton_pdgId[1])==11 && Lepton_mvaTTH_UL[1] > 0.90;
+    bool mu1  = std::abs(Lepton_pdgId[1])==13 && Muon_mvaTTH[Lepton_muonIdx[1]] > 0.82;
+    return LepCut2l_branch * ((ele0||mu0) && (ele1||mu1));
+}
+ 
+double promptGenLepMatch2l(const RVec<int>& Lepton_promptgenmatched) {
+    return Alt<int>(Lepton_promptgenmatched, 0, 0) * Alt<int>(Lepton_promptgenmatched, 1, 0);
+}
+
 #endif

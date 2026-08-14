@@ -1341,7 +1341,7 @@ void plotAll(TString input_folder = "",
 
             // BDT control plots
             // From: https://github.com/root-project/root/blob/master/tmva/tmvagui/src/BDTControlPlots.cxx
-            MY::BDTControlPlots(input_dataset, Form("%s/%s.root", dir.Data(), conf.Data()), "Method_BDTG", output_dir);
+            MY::BDTControlPlots(input_dataset, Form("%s/%s.root", dir.Data(), conf.Data()), "Method_BDT", output_dir);
 
         } // End loop on configurations
     } // End loop on input dirs

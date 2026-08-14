@@ -5,3 +5,5 @@ BDT/__pycache__
 BDT/lxplus
 BDT/*.root
 BDT/output
+BDT/.__afs*
+BDT/datasetHgg/*

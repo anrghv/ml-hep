@@ -29,7 +29,7 @@ The instructions to run the trainings follow.
 
 <!-- OS-SF: -->
 <!--  -->
-    <!-- python ClassificationBDTOSSF.py -->
+<!-- python ClassificationBDTOSSF.py -->
 
 
 ### Plot training results

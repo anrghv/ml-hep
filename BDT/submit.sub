@@ -1,0 +1,9 @@
+executable            = run_bdt.sh
+output                = output/bdt.$(ClusterId).$(ProcId).out
+error                 = error/bdt.$(ClusterId).$(ProcId).err
+log                   = log/bdt.$(ClusterId).log
+
+request_memory         = 40000
++JobFlavour             = "workday"
+
+queue

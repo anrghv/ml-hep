@@ -34,10 +34,9 @@ The instructions to run the trainings follow.
 
 ### Plot training results
 
-SS-SF:
 
-     root -l -b -q 'plotAll.C("./","TMVA_SSSF","plots_BDT_SSSF","datasetSSSF")'
+     root -l -b -q 'plotAll.C("./","TMVA_Hgg","plots_BDT_Hgg","datasetHgg")'
 
-OS-SF:
+<!-- OS-SF:
 
-     root -l -b -q 'plotAll.C("./","TMVA_OSSF","plots_BDT_OSSF","datasetOSSF")'
+     root -l -b -q 'plotAll.C("./","TMVA_OSSF","plots_BDT_OSSF","datasetOSSF")' -->

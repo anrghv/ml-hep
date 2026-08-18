@@ -1,9 +1,6 @@
 BDT/araghav.cc
-BDT/error
-BDT/log
 BDT/__pycache__
 BDT/lxplus
 BDT/*.root
-BDT/output
 BDT/.__afs*
-BDT/datasetHgg/*
+

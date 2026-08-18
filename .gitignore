@@ -3,4 +3,9 @@ BDT/__pycache__
 BDT/lxplus
 BDT/*.root
 BDT/.__afs*
-
+BDT/datasetHgg
+BDT/condor
+BDT/error
+BDT/log
+BDT/output
+BDT/plots_BDT_Hgg

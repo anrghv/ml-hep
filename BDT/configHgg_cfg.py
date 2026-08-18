@@ -9,7 +9,7 @@ from ROOT import gROOT, TFile, TChain, TCut, EnableImplicitMT
 # import aliases
 
 EnableImplicitMT()
-isDEV=True
+isDEV=False
 
 # Load configuration
 # why not import it directly?  
@@ -27,7 +27,7 @@ for f in [samplesFile, structureFile, cutsFile]:
 if isDEV:
     print("Running in DEV mode, limiting number of files per sample to: ", limitFiles)
     for sampleName, sample in list(samples.items()):
-        if sampleName not in ['Hgluglu', 'DY']:
+        if sampleName not in ['Hgluglu', 'DY', 'top']:
             samples.pop(sampleName)
 
 cut = "1"
@@ -35,14 +35,14 @@ cut = "1"
 
 mvaVariables = [
     'mll',
-    # 'lep_pt1',
-    # 'lep_pt2',
-    # 'LowestQGLJet_pt1',
-    # 'LowestQGLJet_pt2',
-    # 'LowestQGLJet_eta1',
-    # 'LowestQGLJet_eta2',
-    # 'mjj_qgl',
-    # 'ptjj_qgl',
-    # 'detajj_qgl',
-    # 'drjj_qgl',
+    'lep_pt1',
+    'lep_pt2',
+    'LowestQGLJet_pt1',
+    'LowestQGLJet_pt2',
+    'LowestQGLJet_eta1',
+    'LowestQGLJet_eta2',
+    'mjj_qgl',
+    'ptjj_qgl',
+    'detajj_qgl',
+    'drjj_qgl',
 ]

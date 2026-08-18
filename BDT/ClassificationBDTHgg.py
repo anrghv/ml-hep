@@ -10,8 +10,8 @@ def runJob():
     # For setup the TMVA environment.
     TMVA.Tools.Instance()
 
-    output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
-    # output = TFile.Open('condor/TMVA_Hgg.root', 'RECREATE') # Output root file if running on condors
+    # output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
+    output = TFile.Open('condor/TMVA_Hgg.root', 'RECREATE') # Output root file if running on condors
     # -----------------------------------------------------------------------------------------------------------------
     # -----------------------Understand this line ---------------------------------------------------------------------
     factory = TMVA.Factory('TMVAClassification', output,'!V:!Silent:Color:DrawProgressBar:AnalysisType=Classification')
@@ -42,8 +42,8 @@ def runJob():
     print("Preparing train/test trees...")  
     # dataloader.SetSignalWeightExpression("eventWeight")
     # dataloader.SetBackgroundWeightExpression("eventWeight")
-    # dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'SplitMode=Random:NormMode=NumEvents:!V')
-    dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'nTrain_Signal=8_000:nTrain_Background=10_000:nTest_Signal=5_000:nTest_Background=5_000:SplitMode=Random:NormMode=NumEvents:!V')
+    dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'SplitMode=Random:NormMode=NumEvents:!V')
+    # dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'nTrain_Signal=8_000:nTrain_Background=10_000:nTest_Signal=5_000:nTest_Background=5_000:SplitMode=Random:NormMode=NumEvents:!V')
     print("Finished PrepareTrainingAndTestTree")
     # dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'nTrain_Signal=100000:nTrain_Background=100000:SplitMode=Random:NormMode=NumEvents:!V')#SSSF
     print("Starting BookMethod")

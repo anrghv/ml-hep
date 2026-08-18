@@ -7,8 +7,8 @@ from ROOT import TChain
 
 BDT_TREES_DIR = "/eos/user/a/araghav/BDT_Trees"
 
-# limitFiles = -1
-limitFiles = 1
+limitFiles = -1
+# limitFiles = 1
 #
 STALE_FILES= []
 def get_files(sampleName):

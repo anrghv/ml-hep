@@ -74,12 +74,12 @@ float getJet(const RVec<float>& coll, const RVec<size_t>& idx, size_t pos, float
     return coll[idx[pos]];
 }
  
-struct DijetVars { float mjj, ptjj, detajj, drjj; };
+struct DijetVars { float mjj, ptjj, detajj, dphijj, drjj; };
  
 DijetVars dijet_qgl_vars(const RVec<float>& pt, const RVec<float>& eta,
                           const RVec<float>& phi, const RVec<float>& mass,
                           const RVec<size_t>& idx) {
-    DijetVars v{-9999.f, -9999.f, -9999.f, -9999.f};
+    DijetVars v{-9999.f, -9999.f, -9999.f, -9999.f, -9999.f};
     if (idx.size() < 2) return v;
  
     ROOT::Math::PtEtaPhiMVector j1(pt[idx[0]], eta[idx[0]], phi[idx[0]], mass[idx[0]]);
@@ -89,6 +89,7 @@ DijetVars dijet_qgl_vars(const RVec<float>& pt, const RVec<float>& eta,
     v.mjj = sum.M();
     v.ptjj = sum.Pt();
     v.detajj = std::abs(eta[idx[0]] - eta[idx[1]]);
+    v.dphijj = ROOT::VecOps::DeltaPhi(phi[idx[0]], phi[idx[1]]);
     v.drjj = ROOT::VecOps::DeltaR(eta[idx[0]], eta[idx[1]], phi[idx[0]], phi[idx[1]]);
     return v;
 }
@@ -155,6 +156,76 @@ double lepWPCut(const RVec<int>& Lepton_pdgId, const RVec<int>& Lepton_muonIdx,
  
 double promptGenLepMatch2l(const RVec<int>& Lepton_promptgenmatched) {
     return Alt<int>(Lepton_promptgenmatched, 0, 0) * Alt<int>(Lepton_promptgenmatched, 1, 0);
+}
+
+bool qglCut(const RVec<float>& CleanJet_qgl_valid) {
+    if (CleanJet_qgl_valid.size() < 2) return false;
+    auto sorted = Sort(CleanJet_qgl_valid);
+    return sorted[0] < 0.5f && sorted[1] < 0.5f;
+}
+
+ROOT::Math::PtEtaPhiMVector leptonP4(const RVec<float>& Lepton_pt, const RVec<float>& Lepton_eta,
+                                      const RVec<float>& Lepton_phi, size_t pos) {
+    if (pos >= Lepton_pt.size()) return ROOT::Math::PtEtaPhiMVector(0., 0., 0., 0.);
+    return ROOT::Math::PtEtaPhiMVector(Lepton_pt[pos], Lepton_eta[pos], Lepton_phi[pos], 0.0);
+}
+
+ROOT::Math::PtEtaPhiMVector jetP4(const RVec<float>& pt, const RVec<float>& eta,
+                                   const RVec<float>& phi, const RVec<float>& mass,
+                                   const RVec<size_t>& idx, size_t pos) {
+    if (pos >= idx.size()) return ROOT::Math::PtEtaPhiMVector(0., 0., 0., 0.);
+    size_t i = idx[pos];
+    return ROOT::Math::PtEtaPhiMVector(pt[i], eta[i], phi[i], mass[i]);
+}
+
+double drjjPlain(const RVec<float>& CleanJet_eta, const RVec<float>& CleanJet_phi) {
+    if (CleanJet_eta.size() < 2) return -9999.0;
+    return ROOT::VecOps::DeltaR(CleanJet_eta[0], CleanJet_eta[1], CleanJet_phi[0], CleanJet_phi[1]);
+}
+
+double dphiLLJetQGL(const ROOT::Math::PtEtaPhiMVector& lep1, const ROOT::Math::PtEtaPhiMVector& lep2,
+                     float jetPhi1, size_t nQGLJets) {
+    if (nQGLJets < 1) return -9999.0;
+    return std::abs((double)ROOT::VecOps::DeltaPhi((float)(lep1 + lep2).Phi(), jetPhi1));
+}
+
+double dphiLLJetJetQGL(const ROOT::Math::PtEtaPhiMVector& lep1, const ROOT::Math::PtEtaPhiMVector& lep2,
+                        const ROOT::Math::PtEtaPhiMVector& jet1, const ROOT::Math::PtEtaPhiMVector& jet2,
+                        size_t nQGLJets) {
+    if (nQGLJets < 2) return -9999.0;
+    return std::abs((double)ROOT::VecOps::DeltaPhi((float)(lep1 + lep2).Phi(), (float)(jet1 + jet2).Phi()));
+}
+
+float btagAtLowestQGL(const RVec<float>& Jet_btag, const RVec<int>& CleanJet_jetIdx,
+                       const RVec<size_t>& idx, size_t pos, float def) {
+    if (pos >= idx.size()) return def;
+    int jetIdx = CleanJet_jetIdx[idx[pos]];
+    return Alt<float>(Jet_btag, (size_t)jetIdx, def);
+}
+
+bool isZeroJet(const RVec<float>& CleanJet_pt) {
+    return Alt<float>(CleanJet_pt, 0, 0.f) < 30.f;
+}
+bool isOneJet(const RVec<float>& CleanJet_pt) {
+    return Alt<float>(CleanJet_pt, 0, 0.f) > 30.f && Alt<float>(CleanJet_pt, 1, 0.f) < 30.f;
+}
+bool isMultiJet(const RVec<float>& CleanJet_pt) {
+    return Alt<float>(CleanJet_pt, 1, 0.f) > 30.f;
+}
+
+bool holeVeto(const RVec<float>& Lepton_eta, const RVec<float>& Lepton_phi, const RVec<int>& Lepton_pdgId,
+              const RVec<float>& CleanJet_eta, const RVec<float>& CleanJet_phi) {
+    bool lep0 = Lepton_eta.size() > 0 && Lepton_eta[0] < -1.3 && Lepton_eta[0] > -2.5
+                && Lepton_phi[0] > -1.57 && Lepton_phi[0] < -0.87 && std::abs(Lepton_pdgId[0]) == 11;
+    bool lep1 = Lepton_eta.size() > 1 && Lepton_eta[1] < -1.3 && Lepton_eta[1] > -2.5
+                && Lepton_phi[1] > -1.57 && Lepton_phi[1] < -0.87 && std::abs(Lepton_pdgId[1]) == 11;
+
+    bool jet0 = Alt<float>(CleanJet_eta, 0, 99.f) < -1.3 && Alt<float>(CleanJet_eta, 0, -99.f) > -2.5
+                && Alt<float>(CleanJet_phi, 0, -99.f) > -1.57 && Alt<float>(CleanJet_phi, 0, 99.f) < -0.87;
+    bool jet1 = Alt<float>(CleanJet_eta, 1, 99.f) < -1.3 && Alt<float>(CleanJet_eta, 1, -99.f) > -2.5
+                && Alt<float>(CleanJet_phi, 1, -99.f) > -1.57 && Alt<float>(CleanJet_phi, 1, 99.f) < -0.87;
+
+    return lep0 || lep1 || jet0 || jet1;
 }
 
 #endif

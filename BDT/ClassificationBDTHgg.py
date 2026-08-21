@@ -2,6 +2,9 @@
 from ROOT import TMVA, TFile, TTree, TCut, TChain
 from subprocess import call
 from os.path import isfile
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import os
 
 import configHgg_cfg  as config
 
@@ -10,12 +13,22 @@ def runJob():
     # For setup the TMVA environment.
     TMVA.Tools.Instance()
 
-    # output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
-    output = TFile.Open('condor/TMVA_Hgg.root', 'RECREATE') # Output root file if running on condors
+    output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
+    # output = TFile.Open('/eos/user/a/araghav/from_BDT/TMVA_Hgg.root', 'RECREATE') # Output root file if running on condors
     # -----------------------------------------------------------------------------------------------------------------
     # -----------------------Understand this line ---------------------------------------------------------------------
     factory = TMVA.Factory('TMVAClassification', output,'!V:!Silent:Color:DrawProgressBar:AnalysisType=Classification')
     # -----------------------------------------------------------------------------------------------------------------
+
+    
+    def alias_applies(sampleName, alias):
+        if 'samples' not in alias:
+            return True
+        scope = alias['samples']
+        print("Checking if alias applies to sample: ", sampleName, " with scope: ", scope)
+        if isinstance(scope, str):
+            return sampleName == scope
+        return sampleName in scope
 
     dataloader = TMVA.DataLoader('datasetHgg') # Create a new dataloader. It will contain the training and test data.
     for br in config.mvaVariables:
@@ -32,6 +45,11 @@ def runJob():
         for tag, filelist, *rest in sample['name']:    
             for f in filelist:
                 sample['tree'].Add(f)
+
+        for aliasName, alias in config.aliases.items():
+            if alias_applies(sampleName, alias):
+                print("Adding alias: ", aliasName, " to sample: ", sampleName)
+                sample['tree'].SetAlias(aliasName, alias['expr'])
                 
         if config.structure[sampleName]['isSignal']==1:
             dataloader.AddSignalTree(sample['tree'], 1.0)
@@ -40,8 +58,8 @@ def runJob():
 
     print("Finished loading all samples")
     print("Preparing train/test trees...")  
-    # dataloader.SetSignalWeightExpression("eventWeight")
-    # dataloader.SetBackgroundWeightExpression("eventWeight")
+    dataloader.SetSignalWeightExpression("eventWeight")
+    dataloader.SetBackgroundWeightExpression("eventWeight")
     dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'SplitMode=Random:NormMode=NumEvents:!V')
     # dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'nTrain_Signal=8_000:nTrain_Background=10_000:nTest_Signal=5_000:nTest_Background=5_000:SplitMode=Random:NormMode=NumEvents:!V')
     print("Finished PrepareTrainingAndTestTree")
@@ -62,6 +80,7 @@ def runJob():
     # Run training, test and evaluation
     
     print("Starting training...")
+    print(datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d-%m-%Y %H:%M:%S IST"))
     factory.TrainAllMethods()
     factory.TestAllMethods()
     factory.EvaluateAllMethods()
@@ -69,6 +88,15 @@ def runJob():
     output.Close()
 
 from ROOT import gInterpreter
+gInterpreter.Declare('using namespace ROOT::VecOps;')
 
 if __name__ == "__main__":
+    print("\nCode is running on: ", os.uname()[1])
+    # this will confirm if the aliases are loaded. will print a yes if the aliases are loaded correctly. If not, it will print a no.
+    if hasattr(config, 'aliases'):
+        print("Aliases are loaded: Yes")
+    else:
+        print("Aliases are loaded: No")
+    print("samples loaded: ", list(config.samples.keys()))
+
     runJob()

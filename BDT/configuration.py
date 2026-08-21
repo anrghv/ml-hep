@@ -8,7 +8,7 @@ tagName = ''
 lumi = 59.83
 
 # file with list of cuts
-cutsFile = 'cuts_BDTTrain.py'
+cutsFile = 'preselections.py'
 
 # file with list of samples
 samplesFile = 'samples_BDTTrain.py'

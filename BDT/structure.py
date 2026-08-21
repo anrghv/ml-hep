@@ -13,39 +13,39 @@ structure['DY']  = {
     'isData'   : 0
 }
 
-structure['top']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
+# structure['top']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
 
 
-structure['Vg']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
+# structure['Vg']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
 
-structure['VgS']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
-
-
-structure['WZ']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
+# structure['VgS']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
 
 
-structure['ZZ']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
+# structure['WZ']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
 
 
-structure['VVV']  = {
-    'isSignal' : 0,
-    'isData'   : 0
-}
+# structure['ZZ']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
+
+
+# structure['VVV']  = {
+#     'isSignal' : 0,
+#     'isData'   : 0
+# }
 
 #=======================================
 #===============Signals=================

@@ -1,11 +1,13 @@
 
 
 preselections = (
-    "mjj_qgl > 0"
-    " && ptjj_qgl > 0"
-    " && detajj_qgl > 0"
-    " && drjj_qgl > 0"
+#     "mjj_qgl > 0"
+#     " && ptjj_qgl > 0"
+#     " && detajj_qgl > 0"
+#     " && drjj_qgl > 0"
+        "detajj > 0"
 )
+
 
 # # preselections = (
 # #     'mll>12'

@@ -37,7 +37,7 @@ if isDEV:
             samples.pop(sampleName)
 
 cut = preselections
-
+# cut = "1"
 
 mvaVariables = [
     # from aliases
@@ -53,6 +53,8 @@ mvaVariables = [
     # 'CleanJet_qgl_valid',
     # 'Alt(Jet_qgl,CleanJet_jetIdx[0],2)', # qgl of leading jet
     # 'Alt(Jet_qgl,CleanJet_jetIdx[1],2)', # qgl of subleading jet
+    # 'dphilljetjet_qgl',
+    # 'drjj'
 
     # branches in tree 
     'detajj',
@@ -60,5 +62,4 @@ mvaVariables = [
     'Lepton_pt[0]',
     'Lepton_pt[1]',
     'ptll',
-    'drjj',
 ]

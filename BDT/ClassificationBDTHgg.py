@@ -25,7 +25,7 @@ def runJob():
         if 'samples' not in alias:
             return True
         scope = alias['samples']
-        print("Checking if alias applies to sample: ", sampleName, " with scope: ", scope)
+        # print("Checking if alias applies to sample: ", sampleName, " with scope: ", scope)
         if isinstance(scope, str):
             return sampleName == scope
         return sampleName in scope
@@ -40,26 +40,34 @@ def runJob():
             print("Skipping sample: ", sampleName, " because it is data")
             continue
 
-        sample['tree'] = TChain("Events")
-        print(sampleName)
-        for tag, filelist, *rest in sample['name']:    
-            for f in filelist:
-                sample['tree'].Add(f)
+        # sample['tree'] = TChain("Events")
+        # print(sampleName)
+        # for tag, filelist, *rest in sample['name']:    
+        #     for f in filelist:
+        #         sample['tree'].Add(f)
+
+        tree = TChain("Events")
+        for entry in sample:
+            for f in entry['files']:
+                tree.Add(f)
 
         for aliasName, alias in config.aliases.items():
             if alias_applies(sampleName, alias):
-                print("Adding alias: ", aliasName, " to sample: ", sampleName)
-                sample['tree'].SetAlias(aliasName, alias['expr'])
+                # print("Adding alias: ", aliasName, " to sample: ", sampleName)
+                # sample['tree'].SetAlias(aliasName, alias['expr'])
+                tree.SetAlias(aliasName, alias['expr'])
                 
         if config.structure[sampleName]['isSignal']==1:
-            dataloader.AddSignalTree(sample['tree'], 1.0)
+            # dataloader.AddSignalTree(sample['tree'], 1.0)
+            dataloader.AddSignalTree(tree, 1.0)
         else:
-            dataloader.AddBackgroundTree(sample['tree'], 1.0)
+            # dataloader.AddBackgroundTree(sample['tree'], 1.0)
+            dataloader.AddBackgroundTree(tree, 1.0)
 
     print("Finished loading all samples")
     print("Preparing train/test trees...")  
-    dataloader.SetSignalWeightExpression("eventWeight")
-    dataloader.SetBackgroundWeightExpression("eventWeight")
+    # dataloader.SetSignalWeightExpression("eventWeight")
+    # dataloader.SetBackgroundWeightExpression("eventWeight")
     dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'SplitMode=Random:NormMode=NumEvents:!V')
     # dataloader.PrepareTrainingAndTestTree(TCut(config.cut),'nTrain_Signal=8_000:nTrain_Background=10_000:nTest_Signal=5_000:nTest_Background=5_000:SplitMode=Random:NormMode=NumEvents:!V')
     print("Finished PrepareTrainingAndTestTree")
@@ -99,4 +107,4 @@ if __name__ == "__main__":
         print("Aliases are loaded: No")
     print("samples loaded: ", list(config.samples.keys()))
 
-    runJob()
+    # runJob()

@@ -1,11 +1,15 @@
 
 
 preselections = (
-#     "mjj_qgl > 0"
-#     " && ptjj_qgl > 0"
-#     " && detajj_qgl > 0"
-#     " && drjj_qgl > 0"
-        "detajj > 0"
+    "mjj_qgl > 0"
+    " && ptjj_qgl > 0"
+    " && detajj_qgl > 0"
+    " && drjj_qgl > 0"
+    " && dphilljetjet_qgl > 0"
+    " && detajj > 0"
+    "&& drjj > 0"
+    " && dphijj_qgl >0"
+
 )
 
 

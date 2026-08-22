@@ -13,7 +13,8 @@ def runJob():
     # For setup the TMVA environment.
     TMVA.Tools.Instance()
 
-    output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
+    # output = TFile.Open('lxplus/TMVA_Hgg.root', 'RECREATE') # Output root file if running on lxplus
+    output = TFile.Open('TMVA_Hgg.root', 'RECREATE') # Output root file if running on condor
     # output = TFile.Open('/eos/user/a/araghav/from_BDT/TMVA_Hgg.root', 'RECREATE') # Output root file if running on condors
     # -----------------------------------------------------------------------------------------------------------------
     # -----------------------Understand this line ---------------------------------------------------------------------
@@ -40,29 +41,29 @@ def runJob():
             print("Skipping sample: ", sampleName, " because it is data")
             continue
 
-        # sample['tree'] = TChain("Events")
-        # print(sampleName)
-        # for tag, filelist, *rest in sample['name']:    
-        #     for f in filelist:
-        #         sample['tree'].Add(f)
+        sample['tree'] = TChain("Events")
+        print(sampleName)
+        for tag, filelist, *rest in sample['name']:    
+            for f in filelist:
+                sample['tree'].Add(f)
 
-        tree = TChain("Events")
-        for entry in sample:
-            for f in entry['files']:
-                tree.Add(f)
+        # tree = TChain("Events")
+        # for entry in sample:
+        #     for f in entry['files']:
+        #         tree.Add(f)
 
         for aliasName, alias in config.aliases.items():
             if alias_applies(sampleName, alias):
                 # print("Adding alias: ", aliasName, " to sample: ", sampleName)
-                # sample['tree'].SetAlias(aliasName, alias['expr'])
-                tree.SetAlias(aliasName, alias['expr'])
+                sample['tree'].SetAlias(aliasName, alias['expr'])
+                # tree.SetAlias(aliasName, alias['expr'])
                 
         if config.structure[sampleName]['isSignal']==1:
-            # dataloader.AddSignalTree(sample['tree'], 1.0)
-            dataloader.AddSignalTree(tree, 1.0)
+            dataloader.AddSignalTree(sample['tree'], 1.0)
+            # dataloader.AddSignalTree(tree, 1.0)
         else:
-            # dataloader.AddBackgroundTree(sample['tree'], 1.0)
-            dataloader.AddBackgroundTree(tree, 1.0)
+            dataloader.AddBackgroundTree(sample['tree'], 1.0)
+            # dataloader.AddBackgroundTree(tree, 1.0)
 
     print("Finished loading all samples")
     print("Preparing train/test trees...")  
@@ -107,4 +108,4 @@ if __name__ == "__main__":
         print("Aliases are loaded: No")
     print("samples loaded: ", list(config.samples.keys()))
 
-    # runJob()
+    runJob()

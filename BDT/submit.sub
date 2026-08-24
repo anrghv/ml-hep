@@ -3,7 +3,6 @@ output                = output/bdt.$(ClusterId).$(ProcId).out
 error                 = error/bdt.$(ClusterId).$(ProcId).err
 log                   = log/bdt.$(ClusterId).log
 
-request_memory         = 50000
-+JobFlavour             = "testmatch"
++JobFlavour             = "workday"
 
 queue

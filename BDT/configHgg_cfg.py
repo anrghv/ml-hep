@@ -8,8 +8,8 @@ from ROOT import gROOT, TFile, TChain, TCut, EnableImplicitMT
 # import preselections
 # import aliases
 
-EnableImplicitMT()
-isDEV=True
+# EnableImplicitMT()
+isDEV=False
 
 # Load configuration
 # why not import it directly?  
@@ -42,24 +42,24 @@ cut = preselections
 mvaVariables = [
     # from aliases
     'detajj_qgl',
-    # 'drjj_qgl',
-    # 'mjj_qgl',
-    # 'dphijj_qgl',
-    # 'LowestQGLJet_eta1',
-    # 'LowestQGLJet_eta2',
-    # 'LowestQGLJet_pt1',
-    # 'LowestQGLJet_pt2',
-    # 'ptjj_qgl',
-    # # 'Alt$(Jet_qgl,CleanJet_jetIdx[0],2)', # qgl of leading jet
-    # # 'Alt$(Jet_qgl,CleanJet_jetIdx[1],2)', # qgl of subleading jet
-    # 'dphilljetjet_qgl',
-    # 'drjj'
+    'drjj_qgl',
+    'mjj_qgl',
+    'dphijj_qgl',
+    'LowestQGLJet_eta1',
+    'LowestQGLJet_eta2',
+    'LowestQGLJet_pt1',
+    'LowestQGLJet_pt2',
+    'ptjj_qgl',
+    # 'Alt$(Jet_qgl,CleanJet_jetIdx[0],2)', # qgl of leading jet
+    # 'Alt$(Jet_qgl,CleanJet_jetIdx[1],2)', # qgl of subleading jet
+    'dphilljetjet_qgl',
+    'drjj',
     # 'CleanJet_qgl_valid',
 
     # branches in tree 
-    # 'detajj',
-    # 'PuppiMET_pt',
-    # 'Lepton_pt[0]',
-    # 'Lepton_pt[1]',
-    # 'ptll',
+    'detajj',
+    'PuppiMET_pt',
+    'Lepton_pt[0]',
+    'Lepton_pt[1]',
+    'ptll',
 ]

@@ -8,7 +8,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kFatal
 ROOT.ROOT.EnableImplicitMT()
 
 treeName = "Events"
-Output_dir = "/eos/user/a/araghav/BDT_Trees"
+Output_dir = "/eos/user/a/araghav/BDT_Trees_training/"
 
 BASE_COLUMNS = [
     "mll", "lep_pt1", "lep_pt2",

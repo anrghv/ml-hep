@@ -70,14 +70,14 @@ samples = {}
 
 samples['DY'] = [
     {'tag': 'DY', 'files': flatten(
-    #     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO') +
-    #     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
-    #  'weight': mcCommonWeight, 'isSignal': False},
+        # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')
+        nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
+     'weight': mcCommonWeight, 'isSignal': False},
     #======================================================================
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),
-        'weight': mcCommonWeight, 'isSignal': False},
+    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+
+    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +
+    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),
+    #     'weight': mcCommonWeight, 'isSignal': False},
 ]
 
 

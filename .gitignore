@@ -9,3 +9,6 @@ BDT/error
 BDT/log
 BDT/output
 BDT/plots_BDT_Hgg
+BDT/BDT_XGBoost/*.npz
+BDT/BDT_XGBoost/*.pkl
+BDT/BDT_XGBoost/plots_bdt_xgboost

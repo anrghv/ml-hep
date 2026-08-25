@@ -8,8 +8,8 @@ ROOT.gErrorIgnoreLevel = ROOT.kFatal
 mcProduction = 'Summer20UL18_106x_nAODv9_Full2018v9'
 mcSteps      = 'MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9'
 treeBaseDir  = '/eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano'
-limitFiles   = -1
-# limitFiles   = 1
+# limitFiles   = -1
+limitFiles   = 1
 
 def makeMCDirectory():
     return os.path.join(treeBaseDir, mcProduction, mcSteps)
@@ -37,7 +37,7 @@ def flatten(tagged_files):
     return [f for _, filelist in tagged_files for f in filelist]
 
 
-mcCommonWeight = "XSWeight*SFweight_val*METFilter_MC*PromptGenLepMatch2l_val"
+mcCommonWeight = "XSWeight*SFweight*METFilter_MC*PromptGenLepMatch2l"
 
 TOP_PTRW = (
     "((topGenPt*antitopGenPt > 0.)"
@@ -53,31 +53,58 @@ signal_path = "/eos/user/a/amassiro/HIG/ZHggPostProc/Summer20UL18_106x_nAODv9_Fu
 
 samples = {}
 
-samples['Hgluglu'] = [
+#=======================================================================
+# TRAINIG SAMPLE
+# ======================================================================
+samples['Hgluglu_train'] = [
     {'tag': 'Hgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHgg")),
      'weight': "genWeight*0.8839*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-samples['qqZHgluglu'] = [
+samples['qqZHgluglu_train'] = [
     {'tag': 'qqZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHllHgg")),
      'weight': "genWeight*0.7612*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-samples['ggZHgluglu'] = [
-    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
-     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
-]
+# samples['ggZHgluglu'] = [
+#     {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
+#      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
+# ]
 
-samples['DY'] = [
+samples['DY_train'] = [
     {'tag': 'DY', 'files': flatten(
         # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')
-        nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
-     'weight': mcCommonWeight, 'isSignal': False},
+        # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
+    #  'weight': mcCommonWeight, 'isSignal': False},
     #======================================================================
-    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+
-    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +
-    #  nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),
-    #     'weight': mcCommonWeight, 'isSignal': False},
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50_HT-100to200') +
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),
+        'weight': mcCommonWeight, 'isSignal': False},
+]
+
+
+# =======================================================================
+# Test sample
+# = ====================================================================
+
+samples['DY_test'] = [
+    {'tag': 'DY', 'files': flatten(
+                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')+
+                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
+                'weight': mcCommonWeight, 'isSignal': False},
+]
+
+# samples["DY_all"] = [
+#     {'tag': 'DY_all', 'files': flatten(
+#                 nanoGetSampleFiles(mcDirectory, 'DYJetsToLL')),
+#                 'weight': mcCommonWeight, 'isSignal': False},
+# ]
+
+samples['ggZHgluglu_test'] = [
+    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
+     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
 ]
 
 

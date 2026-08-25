@@ -1,82 +1,49 @@
 # structure configuration for datacard
 
-#structure = {}
+# structure = {}
 
 # keys here must match keys in samples.py
 
-#=======================================
-#==============Backgrounds==============
-#=======================================
+# =======================================
+# ============== Backgrounds =============
+# =======================================
 
-structure['DY']  = {
-    'isSignal' : 0,
-    'isData'   : 0
+structure['DY_train'] = {
+    'isSignal': 0,
+    'isData': 0
 }
 
-# structure['top']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-
-# structure['Vg']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-# structure['VgS']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-
-# structure['WZ']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-
-# structure['ZZ']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-
-# structure['VVV']  = {
-#     'isSignal' : 0,
-#     'isData'   : 0
-# }
-
-#=======================================
-#===============Signals=================
-#=======================================
-
-structure['Hgluglu'] = {
-    'isSignal' : 1,
-    'isData'   : 0
+structure['DY_test'] = {
+    'isSignal': 0,
+    'isData': 0
 }
 
-structure['qqZHgluglu'] = {
-    'isSignal' : 1,
-    'isData'   : 0
+
+# =======================================
+# ================ Signals ==============
+# =======================================
+
+structure['Hgluglu_train'] = {
+    'isSignal': 1,
+    'isData': 0
 }
 
-structure['ggZHgluglu'] = {
-    'isSignal' : 1,
-    'isData'   : 0
+structure['qqZHgluglu_train'] = {
+    'isSignal': 1,
+    'isData': 0
 }
 
-# structure['WH_htt_minus'] = {
-#     'isSignal' : 1,
-#     'isData'   : 0
+structure['ggZHgluglu_test'] = {
+    'isSignal': 1,
+    'isData': 0
+}
+
+
+# =======================================
+# ================ Data =================
+# =======================================
+
+# structure['DATA'] = {
+#     'isSignal': 0,
+#     'isData': 1
 # }
-
-# data
-
-# structure['DATA']  = {
-#     'isSignal' : 0,
-#     'isData'   : 1
-# }
-
-
-

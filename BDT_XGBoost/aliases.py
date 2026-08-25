@@ -17,15 +17,14 @@ mc     = [skey for skey in samples if skey not in ('Fake', 'DATA')]
 #
 # AM: for the time being exclude the signal from the list of nuisances ... missing adequate post-processing
 #
+# mc_special = [skey for skey in samples if skey not in ('Fake', 'DATA', 'qqZHgluglu', 'ggZHgluglu')]
 mc_special = [skey for skey in samples if skey not in ('Fake', 'DATA', 'Hgluglu', 'qqZHgluglu', 'ggZHgluglu')]
-
 
 # LepCut2l__ele_mvaFall17V2Iso_WP90__mu_cut_Tight_HWWW
 eleWP = 'mvaFall17V2Iso_WP90'
 muWP  = 'cut_Tight_HWWW'
 
-# -----------------------------------------------
-aliases['CleanJet_qgl'] = { #---------------------------------------------------------
+aliases['CleanJet_qgl'] = {
     'expr': 'Take(Jet_qgl, CleanJet_jetIdx)'
 }
 
@@ -37,42 +36,50 @@ aliases['LowestQGLIdx'] = {
     'expr': 'Take(Nonzero(CleanJet_qgl >= 0), Argsort(CleanJet_qgl[CleanJet_qgl >= 0]))'
 }
 
+aliases['QGLcut'] = {
+    'expr': 'Sort(CleanJet_qgl_valid)[0]<0.5 && Sort(CleanJet_qgl_valid)[1]<0.5'
+}
+
+aliases['qgl_j1_lowestqgl'] = {
+    'expr': 'Alt(Take(CleanJet_qgl, LowestQGLIdx), 0, -9999)'
+}
+
 aliases['LowestQGLJet_pt1'] = {
-    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[0], 0)'
+    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[0], -9999.0)'
 }
 
 aliases['LowestQGLJet_pt2'] = {
-    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[1], 0)'
+    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[1], -9999.0)'
 }
 
 aliases['LowestQGLJet_pt3'] = {
-    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[2], 0)'
+    'expr': 'Alt(CleanJet_pt, LowestQGLIdx[2], -9999.0)'
 }
 
 aliases['LowestQGLJet_eta1'] = {
-    'expr': 'Alt(CleanJet_eta, LowestQGLIdx[0], 99)'
+    'expr': 'Alt(CleanJet_eta, LowestQGLIdx[0], -9999.0)'
 }
 
 aliases['LowestQGLJet_eta2'] = {
-    'expr': 'Alt(CleanJet_eta, LowestQGLIdx[1], 99)'
+    'expr': 'Alt(CleanJet_eta, LowestQGLIdx[1], -9999.0)'
 }
 
 aliases['LowestQGLJet_phi1'] = {
-    'expr': 'Alt(CleanJet_phi, LowestQGLIdx[0], 99)'
+    'expr': 'Alt(CleanJet_phi, LowestQGLIdx[0], -9999.0)'
 }
 
 aliases['LowestQGLJet_phi2'] = {
-    'expr': 'Alt(CleanJet_phi, LowestQGLIdx[1], 99)'
+    'expr': 'Alt(CleanJet_phi, LowestQGLIdx[1], -9999.0)'
 }
 
 aliases['LowestQGLJet_mass1'] = {
-    'expr': 'Alt(CleanJet_mass, LowestQGLIdx[0], 0)'
+    'expr': 'Alt(CleanJet_mass, LowestQGLIdx[0], -9999.0)'
 }
 
 aliases['LowestQGLJet_mass2'] = {
-    'expr': 'Alt(CleanJet_mass, LowestQGLIdx[1], 0)'
+    'expr': 'Alt(CleanJet_mass, LowestQGLIdx[1], -9999.0)'
 }
- #________--------------------------------------------------------------------------
+
 
 '''
 aliases['mjj_qgl_cc'] = {
@@ -87,8 +94,22 @@ aliases['mjj_qgl'] = {
     'expr': '(CleanJet_4DV[idx1] + CleanJet_4DV[idx2]).M()'
 }
 '''
+aliases['Lepton_4DV1'] = {
+    'expr': 'ROOT::Math::PtEtaPhiMVector(Lepton_pt[0], Lepton_eta[0], Lepton_phi[0], 0.0)'
+} #used mass 0, because .Phi() only needs pt, phi
 
-#-----------------------------------------------------------
+aliases['Lepton_4DV2'] = {
+    'expr': 'ROOT::Math::PtEtaPhiMVector(Lepton_pt[1], Lepton_eta[1], Lepton_phi[1], 0.0)'
+}
+
+aliases['LowestQGLJet_4DV1'] = {
+    'expr': 'ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[0]], CleanJet_eta[LowestQGLIdx[0]], CleanJet_phi[LowestQGLIdx[0]], CleanJet_mass[LowestQGLIdx[0]])'
+} 
+
+aliases['LowestQGLJet_4DV2'] = {
+    'expr': 'ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[1]], CleanJet_eta[LowestQGLIdx[1]], CleanJet_phi[LowestQGLIdx[1]], CleanJet_mass[LowestQGLIdx[1]])'
+}
+
 aliases['mjj_qgl'] = {
     'expr': 'LowestQGLIdx.size() >= 2 ? (ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[0]],CleanJet_eta[LowestQGLIdx[0]],CleanJet_phi[LowestQGLIdx[0]],CleanJet_mass[LowestQGLIdx[0]])+ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[1]],CleanJet_eta[LowestQGLIdx[1]],CleanJet_phi[LowestQGLIdx[1]],CleanJet_mass[LowestQGLIdx[1]])).M() : -9999.0'
 }
@@ -97,63 +118,108 @@ aliases['detajj_qgl'] = {
     'expr': 'LowestQGLIdx.size() >= 2 ? abs(LowestQGLJet_eta1 - LowestQGLJet_eta2) : -9999.0'
 }
 
+aliases['dphijj_qgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 2 ? DeltaPhi(LowestQGLJet_phi1, LowestQGLJet_phi2) : -9999.0'
+}
+
 aliases['ptjj_qgl'] = {
     'expr': 'LowestQGLIdx.size() >= 2 ? (ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[0]], CleanJet_eta[LowestQGLIdx[0]], CleanJet_phi[LowestQGLIdx[0]], CleanJet_mass[LowestQGLIdx[0]]) + ROOT::Math::PtEtaPhiMVector(CleanJet_pt[LowestQGLIdx[1]], CleanJet_eta[LowestQGLIdx[1]], CleanJet_phi[LowestQGLIdx[1]], CleanJet_mass[LowestQGLIdx[1]])).Pt() : -9999.0'
+}
+
+aliases['drjj'] = {
+    'expr': 'CleanJet_pt.size() >= 2 ? DeltaR(CleanJet_eta[0], CleanJet_eta[1], CleanJet_phi[0], CleanJet_phi[1]) : -9999.0'
 }
 
 aliases['drjj_qgl'] = {
     'expr': 'LowestQGLIdx.size() >= 2 ? DeltaR(LowestQGLJet_eta1, LowestQGLJet_eta2, LowestQGLJet_phi1, LowestQGLJet_phi2) : -9999.0'
 }
 
-#-----------------------------------------------------------
+aliases['dphilljet_qgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 1 ? abs(DeltaPhi((Lepton_4DV1 + Lepton_4DV2).Phi(), LowestQGLJet_phi1)) : -9999.0'
+}
+
+aliases['dphilljetjet_qgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 2 ? abs(DeltaPhi((Lepton_4DV1 + Lepton_4DV2).Phi(), (LowestQGLJet_4DV1 + LowestQGLJet_4DV2).Phi())) : -9999.0'
+}
+
+aliases['btagDeepBj1_lowestqgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 1 ? Alt(Jet_btagDeepB, CleanJet_jetIdx[LowestQGLIdx[0]], -9999.0) : -9999.0'
+}
+
+aliases['btagDeepBj2_lowestqgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 2 ? Alt(Jet_btagDeepB, CleanJet_jetIdx[LowestQGLIdx[1]], -9999.0) : -9999.0'
+}
+
+aliases['btagCSVV2j1_lowestqgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 1 ? Alt(Jet_btagCSVV2, CleanJet_jetIdx[LowestQGLIdx[0]], -9999.0) : -9999.0'
+}
+
+aliases['btagCSVV2j2_lowestqgl'] = {
+    'expr': 'LowestQGLIdx.size() >= 2 ? Alt(Jet_btagCSVV2, CleanJet_jetIdx[LowestQGLIdx[1]], -9999.0) : -9999.0'
+}
+
+
+
+# aliases['LepWPCut'] = {
+#     'expr' : 'LepCut2l__ele_mvaFall17V2Iso_WP90__mu_cut_Tight_HWWW*\
+#      ( ((abs(Lepton_pdgId[0])==13 && Muon_mvaTTH[Lepton_muonIdx[0]]>0.82) || (abs(Lepton_pdgId[0])==11 && Lepton_mvaTTH_UL[0]>0.90)) \
+#     && ((abs(Lepton_pdgId[1])==13 && Muon_mvaTTH[Lepton_muonIdx[1]]>0.82) || (abs(Lepton_pdgId[1])==11 && Lepton_mvaTTH_UL[1]>0.90)) )',
+#     'samples': mc + ['DATA']
+#     #'samples': mc_special + ['DATA']
+# }
+
+# # Lepton SF (not considering the ttHMVA discriminant)
+# aliases['LepWPSF'] = {
+#     'expr' : 'LepSF2l__ele_'+eleWP+'__mu_'+muWP,
+#     'samples' : mc
+#     #'samples' : mc_special
+# }
+
 aliases['LepWPCut'] = {
     'expr' : 'LepCut2l__ele_mvaFall17V2Iso_WP90__mu_cut_Tight_HWWW*\
      ( ((abs(Lepton_pdgId[0])==13 && Muon_mvaTTH[Lepton_muonIdx[0]]>0.82) || (abs(Lepton_pdgId[0])==11 && Lepton_mvaTTH_UL[0]>0.90)) \
     && ((abs(Lepton_pdgId[1])==13 && Muon_mvaTTH[Lepton_muonIdx[1]]>0.82) || (abs(Lepton_pdgId[1])==11 && Lepton_mvaTTH_UL[1]>0.90)) )',
-    #'samples': mc + ['DATA']
     'samples': mc_special + ['DATA']
 }
 
-# Lepton SF (not considering the ttHMVA discriminant)
 aliases['LepWPSF'] = {
     'expr' : 'LepSF2l__ele_'+eleWP+'__mu_'+muWP,
-    #'samples' : mc
     'samples' : mc_special
 }
 
-# ttHMVA SFs and uncertainties
-#aliases['LepWPttHMVASF'] = {
-    #'linesToAdd' : [f'#include "{configurations}/macros/ttHMVASF_class.cc"'],
-    #'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH = ttHMVASF(\"2018\", 2, \"all\", \"nominal\");')"],
-    #'expr' : 'ttH(Lepton_pt, Lepton_eta, Lepton_pdgId)',
-    #'samples' : mc,
-#}
+# #ttHMVA SFs and uncertainties
+# aliases['LepWPttHMVASF'] = {
+#     'linesToAdd' : [f'#include "{configurations}/utils/macros/ttHMVASF_class.cc"'],
+#     'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH = ttHMVASF(\"2018\", 2, \"all\", \"nominal\");')"],
+#     'expr' : 'ttH(Lepton_pt, Lepton_eta, Lepton_pdgId)',
+#     'samples' : mc,
+# }
 
-#aliases['LepWPttHMVASFEleUp'] = {
-    #'linesToAdd' : [f'#include "{configurations}/macros/ttHMVASF_class.cc"'],
-    #'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_EleUp = ttHMVASF(\"2018\", 2, \"all\", \"eleUp\");')"],
-    #'expr' : 'ttH_EleUp(Lepton_pt, Lepton_eta, Lepton_pdgId)',
-    #'samples' : mc,
-#}
-#aliases['LepWPttHMVASFEleDown'] = {
-    #'linesToAdd' : [f'#include "{configurations}/macros/ttHMVASF_class.cc"'],
-    #'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_EleDown = ttHMVASF(\"2018\", 2, \"all\", \"eleDown\");')"],
-    #'expr' : 'ttH_EleDown(Lepton_pt, Lepton_eta, Lepton_pdgId)',
-    #'samples' : mc,
-#}
+# aliases['LepWPttHMVASFEleUp'] = {
+#     'linesToAdd' : [f'#include "{configurations}/utils/macros/ttHMVASF_class.cc"'],
+#     'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_EleUp = ttHMVASF(\"2018\", 2, \"all\", \"eleUp\");')"],
+#     'expr' : 'ttH_EleUp(Lepton_pt, Lepton_eta, Lepton_pdgId)',
+#     'samples' : mc,
+# }
+# aliases['LepWPttHMVASFEleDown'] = {
+#     'linesToAdd' : [f'#include "{configurations}/utils/macros/ttHMVASF_class.cc"'],
+#     'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_EleDown = ttHMVASF(\"2018\", 2, \"all\", \"eleDown\");')"],
+#     'expr' : 'ttH_EleDown(Lepton_pt, Lepton_eta, Lepton_pdgId)',
+#     'samples' : mc,
+# }
 
-#aliases['LepWPttHMVASFMuUp'] = {
-    #'linesToAdd' : [f'#include "{configurations}/macros/ttHMVASF_class.cc"'],
-    #'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_MuUp = ttHMVASF(\"2018\", 2, \"all\", \"muUp\");')"],
-    #'expr' : 'ttH_MuUp(Lepton_pt, Lepton_eta, Lepton_pdgId)',
-    #'samples' : mc,
-#}
-#aliases['LepWPttHMVASFMuDown'] = {
-    #'linesToAdd' : [f'#include "{configurations}/macros/ttHMVASF_class.cc"'],
-    #'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_MuDown = ttHMVASF(\"2018\", 2, \"all\", \"muDown\");')"],
-    #'expr' : 'ttH_MuDown(Lepton_pt, Lepton_eta, Lepton_pdgId)',
-    #'samples' : mc,
-#}
+# aliases['LepWPttHMVASFMuUp'] = {
+#     'linesToAdd' : [f'#include "{configurations}/utils/macros/ttHMVASF_class.cc"'],
+#     'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_MuUp = ttHMVASF(\"2018\", 2, \"all\", \"muUp\");')"],
+#     'expr' : 'ttH_MuUp(Lepton_pt, Lepton_eta, Lepton_pdgId)',
+#     'samples' : mc,
+# }
+# aliases['LepWPttHMVASFMuDown'] = {
+#     'linesToAdd' : [f'#include "{configurations}/utils/macros/ttHMVASF_class.cc"'],
+#     'linesToProcess' : ["ROOT.gInterpreter.Declare('ttHMVASF ttH_MuDown = ttHMVASF(\"2018\", 2, \"all\", \"muDown\");')"],
+#     'expr' : 'ttH_MuDown(Lepton_pt, Lepton_eta, Lepton_pdgId)',
+#     'samples' : mc,
+# }
 
 
 # Conept
@@ -315,7 +381,7 @@ bWP_tight_deepFlavB  = '0.7100'
 bAlgo = 'DeepB'          # ['DeepB',        'DeepFlavB'         ]
 bWP   = bWP_medium_deepB # [bWP_loose_deepB, bWP_loose_deepFlavB]
 bSF   = 'deepcsv'        # ['deepcsv',      'deepjet'           ]
-#------------------------------------------------------------------------------
+
 # b veto
 aliases['bVeto'] = {
     'expr': 'Sum(CleanJet_pt > 20. && abs(CleanJet_eta) < 2.5 && Take(Jet_btag{}, CleanJet_jetIdx) > {}) == 0'.format(bAlgo, bWP)
@@ -337,7 +403,7 @@ aliases['bReqSF'] = {
     #'samples': mc
     'samples' : mc_special
 }
-#--------------------------------------------------------------------------------
+
 # Top control region
 aliases['topcr'] = {
     'expr': 'mtw2>30 && mll>50 && ((zeroJet && !bVeto) || bReq)'
@@ -362,7 +428,7 @@ for shift in ['jesAbsolute', 'jesAbsolute_2018', 'jesBBEC1', 'jesBBEC1_2018', 'j
         aliases[f'Jet_btagSF_{bSF}_shape_{shift.replace("jes","JES")}{var[:2]}'] = {
                 'expr' : f'Jet_btagSF_{bSF}_shape_{var}_{shift}',
                 #'samples' : mc
-                 'samples' : mc_special
+                'samples' : mc_special
         }
 
 for shift in ['jesAbsolute', 'jesAbsolute_2018', 'jesBBEC1', 'jesBBEC1_2018', 'jesEC2',

@@ -18,7 +18,13 @@ mc     = [skey for skey in samples if skey not in ('Fake', 'DATA')]
 # AM: for the time being exclude the signal from the list of nuisances ... missing adequate post-processing
 #
 # mc_special = [skey for skey in samples if skey not in ('Fake', 'DATA', 'qqZHgluglu', 'ggZHgluglu')]
-mc_special = [skey for skey in samples if skey not in ('Fake', 'DATA', 'Hgluglu', 'qqZHgluglu', 'ggZHgluglu')]
+# mc_special = [skey for skey in samples if skey not in ('Fake', 'DATA', 'Hgluglu', 'qqZHgluglu', 'ggZHgluglu')]
+mc_special = [skey for skey in samples if skey not in ('Fake',
+        'DATA',
+        'Hgluglu',
+        'qqZHgluglu',
+        'ggZHgluglu',
+        'ZH_HToGluGlu_ZToLL-M125',)]
 
 # LepCut2l__ele_mvaFall17V2Iso_WP90__mu_cut_Tight_HWWW
 eleWP = 'mvaFall17V2Iso_WP90'

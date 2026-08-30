@@ -9,7 +9,7 @@ mcProduction = 'Summer20UL18_106x_nAODv9_Full2018v9'
 mcSteps      = 'MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9'
 treeBaseDir  = '/eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano'
 # limitFiles   = -1
-limitFiles   = 1
+# limitFiles   = 1
 
 def makeMCDirectory():
     return os.path.join(treeBaseDir, mcProduction, mcSteps)
@@ -56,20 +56,20 @@ samples = {}
 #=======================================================================
 # TRAINIG SAMPLE
 # ======================================================================
-samples['Hgluglu_train'] = [
+samples['Hgluglu'] = [
     {'tag': 'Hgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHgg")),
      'weight': "genWeight*0.8839*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-samples['qqZHgluglu_train'] = [
+samples['qqZHgluglu'] = [
     {'tag': 'qqZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHllHgg")),
      'weight': "genWeight*0.7612*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-# samples['ggZHgluglu'] = [
-#     {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
-#      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
-# ]
+samples['ggZHgluglu'] = [
+    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
+     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
+]
 
 samples['DY_train'] = [
     {'tag': 'DY', 'files': flatten(
@@ -102,12 +102,12 @@ samples['DY_test'] = [
 #                 'weight': mcCommonWeight, 'isSignal': False},
 # ]
 
-samples['ggZHgluglu_test'] = [
-    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")),
+samples['ZH_HToGluGlu_ZToLL-M125'] = [
+    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")),
      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-
+print("Limiting number of files per sample to:", limitFiles)
 print("Number of samples:", len(samples.keys()))
 for sampleName, subentries in samples.items():
     total = sum(len(e['files']) for e in subentries)

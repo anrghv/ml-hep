@@ -1,0 +1,381 @@
+Declared headers.h: True
+Need to query for files for folder /eos/user/a/amassiro/HIG/ZHggPostProc/Summer20UL18_106x_nAODv9_Full2018v9/MCFull2018v9/
+Need to query for files for folder /eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano/Summer20UL18_106x_nAODv9_Full2018v9/MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9/
+with redirector root://eoscms.cern.ch/
+Limiting number of files per sample to: -1
+Number of samples: 6
+Sample: Hgluglu sub-entries: 1 total files: 60
+Sample: qqZHgluglu sub-entries: 1 total files: 9984
+Sample: ggZHgluglu sub-entries: 1 total files: 9946
+Sample: DY_train sub-entries: 1 total files: 303
+Sample: DY_test sub-entries: 1 total files: 253
+Sample: ZH_HToGluGlu_ZToLL-M125 sub-entries: 1 total files: 72
+Processing sample: Hgluglu -> train (1 sub-entries)
+  [Hgluglu] -> 8573 events
+Processing sample: qqZHgluglu -> train (1 sub-entries)
+  [qqZHgluglu] -> 143158 events
+Processing sample: ggZHgluglu -> train (1 sub-entries)
+  [ggZHgluglu] -> 212301 events
+Processing sample: DY_train -> train (1 sub-entries)
+  [DY] -> 6391210 events
+Processing sample: DY_test -> test (1 sub-entries)
+  [DY] -> 5526789 events
+Processing sample: ZH_HToGluGlu_ZToLL-M125 -> test (1 sub-entries)
+  [ggZHgluglu] -> 480858 events
+
+Dataset summary
+----------------------------------------
+Training events : 6755242
+Testing events  : 6007647
+Training signal : 364032
+Training bkg    : 6391210
+Testing signal  : 480858
+Testing bkg     : 5526789
+Saved shared dataset -> /eos/user/a/araghav/xgb_outputs/xgb_Hgg_dataset.npz
+
+
+======================================================================
+Training configuration: xgb_d2_lr001_n200
+======================================================================
+Parameters:
+  n_estimators: 200
+  max_depth: 2
+  learning_rate: 0.01
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8380
+Test AUC:  0.8087
+
+Variable Importance Ranking: xgb_d2_lr001_n200
+----------------------------------------
+ 1 : ptll                      0.2240
+ 2 : LowestQGLJet_pt1          0.2039
+ 3 : drjj                      0.1591
+ 4 : detajj                    0.1464
+ 5 : mjj_qgl                   0.1035
+ 6 : Lepton_pt[1]              0.0923
+ 7 : detajj_qgl                0.0403
+ 8 : LowestQGLJet_pt2          0.0305
+ 9 : drjj_qgl                  0.0000
+10 : dphijj_qgl                0.0000
+11 : LowestQGLJet_eta1         0.0000
+12 : LowestQGLJet_eta2         0.0000
+13 : ptjj_qgl                  0.0000
+14 : dphilljetjet_qgl          0.0000
+15 : PuppiMET_pt               0.0000
+16 : Lepton_pt[0]              0.0000
+
+
+======================================================================
+Training configuration: xgb_d2_lr005_n300
+======================================================================
+Parameters:
+  n_estimators: 300
+  max_depth: 2
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8715
+Test AUC:  0.8281
+
+Variable Importance Ranking: xgb_d2_lr005_n300
+----------------------------------------
+ 1 : detajj                    0.1837
+ 2 : ptll                      0.1768
+ 3 : LowestQGLJet_pt1          0.1683
+ 4 : Lepton_pt[1]              0.0725
+ 5 : mjj_qgl                   0.0674
+ 6 : LowestQGLJet_eta1         0.0649
+ 7 : drjj                      0.0594
+ 8 : drjj_qgl                  0.0481
+ 9 : detajj_qgl                0.0463
+10 : LowestQGLJet_pt2          0.0314
+11 : dphilljetjet_qgl          0.0293
+12 : LowestQGLJet_eta2         0.0252
+13 : dphijj_qgl                0.0103
+14 : Lepton_pt[0]              0.0087
+15 : PuppiMET_pt               0.0055
+16 : ptjj_qgl                  0.0022
+
+
+======================================================================
+Training configuration: xgb_d2_lr010_n500
+======================================================================
+Parameters:
+  n_estimators: 500
+  max_depth: 2
+  learning_rate: 0.1
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8799
+Test AUC:  0.8304
+
+Variable Importance Ranking: xgb_d2_lr010_n500
+----------------------------------------
+ 1 : ptll                      0.1733
+ 2 : detajj                    0.1704
+ 3 : LowestQGLJet_pt1          0.1601
+ 4 : Lepton_pt[1]              0.0936
+ 5 : LowestQGLJet_eta1         0.0794
+ 6 : mjj_qgl                   0.0712
+ 7 : detajj_qgl                0.0536
+ 8 : drjj                      0.0520
+ 9 : LowestQGLJet_pt2          0.0337
+10 : dphilljetjet_qgl          0.0271
+11 : drjj_qgl                  0.0253
+12 : LowestQGLJet_eta2         0.0247
+13 : ptjj_qgl                  0.0104
+14 : PuppiMET_pt               0.0096
+15 : Lepton_pt[0]              0.0093
+16 : dphijj_qgl                0.0061
+
+
+======================================================================
+Training configuration: xgb_d2_lr005_n200
+======================================================================
+Parameters:
+  n_estimators: 200
+  max_depth: 2
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8673
+Test AUC:  0.8277
+
+Variable Importance Ranking: xgb_d2_lr005_n200
+----------------------------------------
+ 1 : detajj                    0.1725
+ 2 : ptll                      0.1639
+ 3 : LowestQGLJet_pt1          0.1559
+ 4 : drjj                      0.0967
+ 5 : mjj_qgl                   0.0728
+ 6 : Lepton_pt[1]              0.0702
+ 7 : LowestQGLJet_eta1         0.0594
+ 8 : drjj_qgl                  0.0571
+ 9 : detajj_qgl                0.0565
+10 : LowestQGLJet_pt2          0.0354
+11 : LowestQGLJet_eta2         0.0285
+12 : dphilljetjet_qgl          0.0272
+13 : PuppiMET_pt               0.0038
+14 : dphijj_qgl                0.0000
+15 : ptjj_qgl                  0.0000
+16 : Lepton_pt[0]              0.0000
+
+
+======================================================================
+Training configuration: xgb_d2_lr005_n500
+======================================================================
+Parameters:
+  n_estimators: 500
+  max_depth: 2
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8756
+Test AUC:  0.8288
+
+Variable Importance Ranking: xgb_d2_lr005_n500
+----------------------------------------
+ 1 : detajj                    0.1830
+ 2 : ptll                      0.1773
+ 3 : LowestQGLJet_pt1          0.1770
+ 4 : Lepton_pt[1]              0.0795
+ 5 : LowestQGLJet_eta1         0.0720
+ 6 : mjj_qgl                   0.0646
+ 7 : drjj                      0.0547
+ 8 : detajj_qgl                0.0487
+ 9 : dphilljetjet_qgl          0.0321
+10 : LowestQGLJet_pt2          0.0307
+11 : LowestQGLJet_eta2         0.0257
+12 : drjj_qgl                  0.0225
+13 : Lepton_pt[0]              0.0091
+14 : ptjj_qgl                  0.0078
+15 : PuppiMET_pt               0.0078
+16 : dphijj_qgl                0.0075
+
+
+======================================================================
+Training configuration: xgb_d4_lr001_n200
+======================================================================
+Parameters:
+  n_estimators: 200
+  max_depth: 4
+  learning_rate: 0.01
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8551
+Test AUC:  0.8265
+
+Variable Importance Ranking: xgb_d4_lr001_n200
+----------------------------------------
+ 1 : ptll                      0.3408
+ 2 : LowestQGLJet_pt1          0.1271
+ 3 : detajj                    0.1174
+ 4 : dphijj_qgl                0.0714
+ 5 : mjj_qgl                   0.0713
+ 6 : drjj                      0.0584
+ 7 : dphilljetjet_qgl          0.0471
+ 8 : Lepton_pt[1]              0.0451
+ 9 : detajj_qgl                0.0334
+10 : LowestQGLJet_pt2          0.0309
+11 : LowestQGLJet_eta1         0.0246
+12 : drjj_qgl                  0.0189
+13 : Lepton_pt[0]              0.0076
+14 : PuppiMET_pt               0.0040
+15 : ptjj_qgl                  0.0020
+16 : LowestQGLJet_eta2         0.0000
+
+
+======================================================================
+Training configuration: xgb_d4_lr005_n300
+======================================================================
+Parameters:
+  n_estimators: 300
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8829
+Test AUC:  0.8342
+
+Variable Importance Ranking: xgb_d4_lr005_n300
+----------------------------------------
+ 1 : ptll                      0.2367
+ 2 : detajj                    0.1550
+ 3 : LowestQGLJet_pt1          0.1378
+ 4 : Lepton_pt[1]              0.0695
+ 5 : LowestQGLJet_eta1         0.0689
+ 6 : mjj_qgl                   0.0687
+ 7 : LowestQGLJet_pt2          0.0452
+ 8 : detajj_qgl                0.0430
+ 9 : drjj                      0.0404
+10 : dphilljetjet_qgl          0.0337
+11 : LowestQGLJet_eta2         0.0264
+12 : drjj_qgl                  0.0218
+13 : dphijj_qgl                0.0198
+14 : Lepton_pt[0]              0.0132
+15 : ptjj_qgl                  0.0111
+16 : PuppiMET_pt               0.0087
+
+
+======================================================================
+Training configuration: xgb_d4_lr010_n500
+======================================================================
+Parameters:
+  n_estimators: 500
+  max_depth: 4
+  learning_rate: 0.1
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8913
+Test AUC:  0.8388
+
+Variable Importance Ranking: xgb_d4_lr010_n500
+----------------------------------------
+ 1 : ptll                      0.2505
+ 2 : LowestQGLJet_pt1          0.1461
+ 3 : detajj                    0.1299
+ 4 : Lepton_pt[1]              0.0778
+ 5 : mjj_qgl                   0.0692
+ 6 : LowestQGLJet_eta1         0.0619
+ 7 : LowestQGLJet_pt2          0.0572
+ 8 : detajj_qgl                0.0528
+ 9 : drjj                      0.0319
+10 : dphilljetjet_qgl          0.0317
+11 : LowestQGLJet_eta2         0.0227
+12 : drjj_qgl                  0.0158
+13 : ptjj_qgl                  0.0145
+14 : Lepton_pt[0]              0.0142
+15 : dphijj_qgl                0.0140
+16 : PuppiMET_pt               0.0099
+
+
+======================================================================
+Training configuration: xgb_d4_lr005_n200
+======================================================================
+Parameters:
+  n_estimators: 200
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8791
+Test AUC:  0.8326
+
+Variable Importance Ranking: xgb_d4_lr005_n200
+----------------------------------------
+ 1 : ptll                      0.2286
+ 2 : detajj                    0.1537
+ 3 : LowestQGLJet_pt1          0.1348
+ 4 : mjj_qgl                   0.0754
+ 5 : LowestQGLJet_eta1         0.0664
+ 6 : Lepton_pt[1]              0.0622
+ 7 : drjj                      0.0485
+ 8 : detajj_qgl                0.0433
+ 9 : LowestQGLJet_pt2          0.0433
+10 : dphilljetjet_qgl          0.0354
+11 : LowestQGLJet_eta2         0.0270
+12 : drjj_qgl                  0.0256
+13 : dphijj_qgl                0.0246
+14 : Lepton_pt[0]              0.0126
+15 : ptjj_qgl                  0.0093
+16 : PuppiMET_pt               0.0092
+
+
+======================================================================
+Training configuration: xgb_d4_lr005_n500
+======================================================================
+Parameters:
+  n_estimators: 500
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.5
+  min_child_weight: 1
+
+Train AUC: 0.8867
+Test AUC:  0.8362
+
+Variable Importance Ranking: xgb_d4_lr005_n500
+----------------------------------------
+ 1 : ptll                      0.2413
+ 2 : detajj                    0.1498
+ 3 : LowestQGLJet_pt1          0.1469
+ 4 : Lepton_pt[1]              0.0708
+ 5 : LowestQGLJet_eta1         0.0667
+ 6 : mjj_qgl                   0.0654
+ 7 : LowestQGLJet_pt2          0.0492
+ 8 : detajj_qgl                0.0476
+ 9 : drjj                      0.0336
+10 : dphilljetjet_qgl          0.0319
+11 : LowestQGLJet_eta2         0.0254
+12 : drjj_qgl                  0.0217
+13 : dphijj_qgl                0.0158
+14 : Lepton_pt[0]              0.0130
+15 : ptjj_qgl                  0.0116
+16 : PuppiMET_pt               0.0093
+
+
+==========================================================================================
+XGBoost Configuration Summary
+==========================================================================================
+Config            Depth   Trees        LR   Subsample     MCW   Train AUC    Test AUC
+------------------------------------------------------------------------------------------
+xgb_d2_lr001_n200       2     200     0.010        0.50       1      0.8380      0.8087
+xgb_d2_lr005_n300       2     300     0.050        0.50       1      0.8715      0.8281
+xgb_d2_lr010_n500       2     500     0.100        0.50       1      0.8799      0.8304
+xgb_d2_lr005_n200       2     200     0.050        0.50       1      0.8673      0.8277
+xgb_d2_lr005_n500       2     500     0.050        0.50       1      0.8756      0.8288
+xgb_d4_lr001_n200       4     200     0.010        0.50       1      0.8551      0.8265
+xgb_d4_lr005_n300       4     300     0.050        0.50       1      0.8829      0.8342
+xgb_d4_lr010_n500       4     500     0.100        0.50       1      0.8913      0.8388
+xgb_d4_lr005_n200       4     200     0.050        0.50       1      0.8791      0.8326
+xgb_d4_lr005_n500       4     500     0.050        0.50       1      0.8867      0.8362

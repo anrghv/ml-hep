@@ -23,17 +23,22 @@ structure['DY_test'] = {
 # ================ Signals ==============
 # =======================================
 
-structure['Hgluglu_train'] = {
+structure['Hgluglu'] = {
     'isSignal': 1,
     'isData': 0
 }
 
-structure['qqZHgluglu_train'] = {
+structure['qqZHgluglu'] = {
     'isSignal': 1,
     'isData': 0
 }
 
-structure['ggZHgluglu_test'] = {
+structure['ggZHgluglu'] = {
+    'isSignal': 1,
+    'isData': 0
+}
+
+structure['ZH_HToGluGlu_ZToLL-M125'] = {
     'isSignal': 1,
     'isData': 0
 }

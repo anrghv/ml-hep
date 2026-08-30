@@ -29,3 +29,6 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# AFS temporary files
+.__afs*

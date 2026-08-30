@@ -1,7 +1,7 @@
 executable            = run_bdt.sh
-output                = output/bdt.$(ClusterId).$(ProcId).out
-error                 = error/bdt.$(ClusterId).$(ProcId).err
-log                   = log/bdt.$(ClusterId).log
+output                = output/xgb.$(ClusterId).$(ProcId).out
+error                 = error/xgb.$(ClusterId).$(ProcId).err
+log                   = log/xgb.$(ClusterId).log
 
 +JobFlavour             = "workday"
 

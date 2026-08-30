@@ -1,14 +1,31 @@
-BDT/araghav.cc
-BDT/__pycache__
-BDT/lxplus
-BDT/*.root
-BDT/.__afs*
-BDT/datasetHgg
-BDT/condor
-BDT/error
-BDT/log
-BDT/output
-BDT/plots_BDT_Hgg
-BDT/BDT_XGBoost/*.npz
-BDT/BDT_XGBoost/*.pkl
-BDT/BDT_XGBoost/plots_bdt_xgboost
+# Python cache
+__pycache__/
+*.py[cod]
+
+# ROOT / generated files
+*.root
+
+# ML outputs / trained models
+*.pkl
+*.pickle
+*.npz
+*.npy
+
+# Plots
+*.png
+*.pdf
+
+# Logs / batch outputs
+*.log
+*.out
+*.err
+
+# Generated TMVA files
+*.weights.xml
+*.class.C
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

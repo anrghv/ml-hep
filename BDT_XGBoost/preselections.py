@@ -9,6 +9,7 @@ preselections = (
     " && detajj > 0"
     "&& drjj > 0"
     " && dphijj_qgl >0"
+    " && ptll >0"
 
 )
 

@@ -23,6 +23,7 @@ __pycache__/
 # Generated TMVA files
 *.weights.xml
 *.class.C
+*.cc
 
 # Editor / OS files
 .vscode/

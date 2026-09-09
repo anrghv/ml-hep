@@ -77,10 +77,10 @@ samples['DY_train'] = [
         # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
     #  'weight': mcCommonWeight, 'isSignal': False},
     #======================================================================
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50_HT-100to200') +
-     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO')+                  # Lo sample: positive weights
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50-LO') +             # Lo sample: positive weights
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50_HT-100to200') +       # Lo sample: positive weights
+     nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50-LO_ext1')),           # Lo sample: positive weights
         'weight': mcCommonWeight, 'isSignal': False},
 ]
 
@@ -91,8 +91,8 @@ samples['DY_train'] = [
 
 samples['DY_test'] = [
     {'tag': 'DY', 'files': flatten(
-                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')+
-                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
+                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')+    #NLO sample: negative weights
+                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),            # NLO sample: NLO negative weights
                 'weight': mcCommonWeight, 'isSignal': False},
 ]
 

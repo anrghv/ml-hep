@@ -12,7 +12,7 @@ with open(pkl_path, "rb") as f:
 if not hasattr(model, "objective") or model.objective is None:
     model.objective = "binary:logistic"
 
-num_features = 16  # Must match the length of mvaVariables exactly
+num_features = 12  # Must match the length of mvaVariables exactly
 
 # Pass `model` directly (DO NOT extract booster)
 ROOT.TMVA.Experimental.SaveXGBoost(

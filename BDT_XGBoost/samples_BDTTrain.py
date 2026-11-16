@@ -8,7 +8,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kFatal
 mcProduction = 'Summer20UL18_106x_nAODv9_Full2018v9'
 mcSteps      = 'MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9'
 treeBaseDir  = '/eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano'
-# limitFiles   = -1
+limitFiles   = -1
 # limitFiles   = 1
 
 def makeMCDirectory():

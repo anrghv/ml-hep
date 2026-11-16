@@ -24,6 +24,10 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from xgboost import XGBClassifier
 
+print("#" * 80)
+print("XGB Configuration tuning script, v2")
+print("#" * 80)
+
 # ---------------- settings ----------------
 OUTPUT_DIR = os.environ.get("XGB_OUT", "/eos/user/a/araghav/xgboost/outputs_ml-hep")
 DATASET = os.path.join(OUTPUT_DIR, "xgb_Hgg_tuning.npz")

@@ -53,9 +53,6 @@ signal_path = "/eos/user/a/amassiro/HIG/ZHggPostProc/Summer20UL18_106x_nAODv9_Fu
 
 samples = {}
 
-#=======================================================================
-# TRAINIG SAMPLE
-# ======================================================================
 samples['Hgluglu'] = [
     {'tag': 'Hgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHgg")),
      'weight': "genWeight*0.8839*0.08187*0.033658*3", 'isSignal': True},
@@ -71,7 +68,7 @@ samples['ggZHgluglu'] = [
      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-samples['DY_train'] = [
+samples['DY'] = [
     {'tag': 'DY', 'files': flatten(
         # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')
         # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),
@@ -89,12 +86,12 @@ samples['DY_train'] = [
 # Test sample
 # = ====================================================================
 
-samples['DY_test'] = [
-    {'tag': 'DY', 'files': flatten(
-                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')+    #NLO sample: negative weights
-                nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),            # NLO sample: NLO negative weights
-                'weight': mcCommonWeight, 'isSignal': False},
-]
+# samples['DY_test'] = [
+#     {'tag': 'DY', 'files': flatten(
+#                 nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')+    #NLO sample: negative weights
+#                 nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-50')),            # NLO sample: NLO negative weights
+#                 'weight': mcCommonWeight, 'isSignal': False},
+# ]
 
 # samples["DY_all"] = [
 #     {'tag': 'DY_all', 'files': flatten(

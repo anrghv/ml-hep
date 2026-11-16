@@ -32,7 +32,7 @@ isDEV = True
 # limitFiles = 1
 limitFiles = -1
 
-OUTPUT_DIR = "/eos/user/a/araghav/xgb_outputs"
+OUTPUT_DIR = "/eos/user/a/araghav/xgboost/outputs_ml-hep"
 
 with open("configuration.py") as handle:
     exec(handle.read())
@@ -57,35 +57,73 @@ cut = preselections
 
 # MVA VARIABLES
 mvaVariables = [
-    'mjj_qgl',
-    # 'mjj_qgl',
-    # 'CleanJet_qgl_valid',
-    'dphijj_qgl',
-    'LowestQGLJet_eta1',
-    'LowestQGLJet_eta2',
-    'LowestQGLJet_pt1',
-    'LowestQGLJet_pt2',
-    'ptjj_qgl',
-    'dphilljetjet_qgl',
-    'detajj',
+    # Lepton kinematics
     'Lepton_pt[0]',
     'Lepton_pt[1]',
     'ptll',
-    # 'drjj_qgl',
-    # 'drjj',
-    # 'detajj_qgl',
+    'mll',
+
+    # Missing transverse energy
     # 'PuppiMET_pt',
+
+    # Jet kinematics
+    # 'Alt(CleanJet_pt,0,0)',
+    # 'Alt(CleanJet_pt,1,0)',
+    # 'Alt(CleanJet_eta,0,0)',
+    # 'Alt(CleanJet_eta,1,0)',
+
+    # Lowest-QGL jet kinematics
+    'LowestQGLJet_pt1',
+    'LowestQGLJet_pt2',
+    'LowestQGLJet_pt3',
+    # 'LowestQGLJet_eta1',
+    # 'LowestQGLJet_eta2',
+    # 'LowestQGLJet_phi1',
+    # 'LowestQGLJet_phi2',
+    'LowestQGLJet_mass1',
+    'LowestQGLJet_mass2',
+
+    # Jet QGL information
+    'qgl_j1_lowestqgl',
+
+    # Jet b-tagging information
+    'btagDeepBj1_lowestqgl',
+    'btagDeepBj2_lowestqgl',
+    'btagCSVV2j1_lowestqgl',
+    # 'btagCSVV2j2_lowestqgl',
+
+    # Dijet kinematics
+    'mjj',
+    'mjj_qgl',
+    # 'mjj_qgl_cc',
+    # 'ptjj',
+    'ptjj_qgl',
+    'detajj',
+    'detajj_qgl',
+    'dphijj',
+    'dphijj_qgl',
+    'drjj',
+    'drjj_qgl',
+
+    # Lepton-jet angular variables
+    'dphilljet',
+    # 'dphilljet_qgl',
+    'dphilljetjet',
+    'dphilljetjet_qgl',
+
+    # Jet multiplicity / QGL information
+    # 'CleanJet_qgl_valid.size()',
 ]
 
 
-PROCESS_SAMPLES = ["DY_train", "ZH_HToGluGlu_ZToLL-M125"]
+PROCESS_SAMPLES = ["DY", "ZH_HToGluGlu_ZToLL-M125"]
 
 # # TRAIN / TEST SAMPLE DEFINITIONS
-# TRAIN_SAMPLES = [
+# TRAIN_SAMPLES = [ 
 #     # 'Hgluglu',
 #     # 'qqZHgluglu',
 #     # 'ggZHgluglu',
-#     'DY_train',
+#     'DY',
 #     'ZH_HToGluGlu_ZToLL-M125'
 # ]
 
@@ -95,7 +133,7 @@ PROCESS_SAMPLES = ["DY_train", "ZH_HToGluGlu_ZToLL-M125"]
 #     # 'Hgluglu',
 #     # 'qqZHgluglu',
 #     # 'ggZHgluglu',
-#     'DY_train'
+#     'DY'
 # ]
 
 
@@ -178,6 +216,64 @@ def build_dataframe(sampleName, subentry_files, varnames, colmap):
 # XGBOOST CONFIGURATIONS
 
 XGB_CONFIGS = {
+
+    "xgb_tuned_1": {
+    "n_estimators": 600,
+    "max_depth": 5,
+    "learning_rate": 0.12154323374774018,
+    "min_child_weight": 15,
+    "gamma": 2.8567812963999484,
+    "subsample": 0.6907226513881366,
+    "colsample_bytree": 0.5535883729682609,
+    "colsample_bynode": 0.6615567046239513,
+    "reg_alpha": 0.31352699641664766,
+    "reg_lambda": 2.761264429359447
+    },
+
+    "xgb_tuned_2": {
+        "n_estimators": 600,
+        "max_depth": 3,
+        "learning_rate": 0.12154323374774018,
+        "min_child_weight": 15,
+        "gamma": 2.8567812963999484,
+        "subsample": 0.6907226513881366,
+        "colsample_bytree": 0.5535883729682609,
+        "colsample_bynode": 0.6615567046239513,
+        "reg_alpha": 0.31352699641664766,
+        "reg_lambda": 2.761264429359447
+        },
+
+        "xgb_tuned_3": {
+            "n_estimators": 600,
+            "max_depth": 3,
+            "learning_rate": 0.12154323374774018,
+            "min_child_weight": 10,
+            "gamma": 2.8567812963999484,
+            "subsample": 0.6907226513881366,
+            "colsample_bytree": 0.5535883729682609,
+            "colsample_bynode": 0.6615567046239513,
+            "reg_alpha": 0.31352699641664766,
+            "reg_lambda": 2.761264429359447
+            },
+
+            "xgb_tuned_4": {
+                "n_estimators": 600,
+                "max_depth": 3,
+                "learning_rate": 0.12154323374774018,
+                "min_child_weight": 8,
+                "gamma": 2.8567812963999484,
+                "subsample": 0.6907226513881366,
+                "colsample_bytree": 0.5535883729682609,
+                "colsample_bynode": 0.6615567046239513,
+                "reg_alpha": 0.31352699641664766,
+                "reg_lambda": 2.761264429359447
+                },
+
+
+
+
+
+
     # 1. Depth 6 with tuned L1/L2 regularization (building on d6_reg)
     # "xgb_d6_lr03_n600_l2": {"n_estimators": 600, "max_depth": 6, "learning_rate": 0.03, "subsample": 0.8, "colsample_bytree": 0.7,
     #                          "min_child_weight": 8,"reg_lambda": 3.0, "gamma": 1.5
@@ -187,9 +283,9 @@ XGB_CONFIGS = {
     # },
 
     # 3. Depth 5 deeper optimization (highly robust against overtraining)
-    "xgb_d5_lr03_n700_dense": {"n_estimators": 700, "max_depth": 5, "learning_rate": 0.03, "subsample": 0.85, "colsample_bytree": 0.75,
-                                "min_child_weight": 5, "reg_lambda": 2.0, "gamma": 0.5
-    },
+    # "xgb_d5_lr03_n700_dense": {"n_estimators": 200, "max_depth": 3, "learning_rate": 0.03, "subsample": 0.85, "colsample_bytree": 0.75,
+    #                             "min_child_weight": 5, "reg_lambda": 2.0, "gamma": 0.5
+    # },
     # "xgb_d5_lr04_n600_l1": {"n_estimators": 600, "max_depth": 5, "learning_rate": 0.04, "subsample": 0.8, "colsample_bytree": 0.7, 
     #                          "min_child_weight": 6, "reg_alpha": 0.2, "reg_lambda": 1.0
     # },
@@ -324,7 +420,7 @@ def runJob():
     print(f"Testing signal  : {np.sum(y_test == 1)}")
     print(f"Testing bkg     : {np.sum(y_test == 0)}")
 
-    dataset_filename = os.path.join(OUTPUT_DIR, "xgb_Hgg_dataset.npz")
+    dataset_filename = os.path.join(OUTPUT_DIR, "xgb_Hgg_tuning.npz")
     np.savez(
         dataset_filename,
         y_train=y_train,
@@ -358,6 +454,7 @@ def runJob():
         
         clf = XGBClassifier(**params, eval_metric="logloss")
 
+        # clf.fit(X_train, y_train, sample_weight=None)
         clf.fit(X_train, y_train, sample_weight=w_train_norm)
 
         train_scores = clf.predict_proba(X_train)[:, 1]
@@ -379,6 +476,8 @@ def runJob():
         with open(model_filename, "wb") as f:
             pickle.dump(clf, f)
 
+        importance = clf.feature_importances_
+
         scores_filename = os.path.join(OUTPUT_DIR, f"xgb_Hgg_scores_{config_name}.npz")
         np.savez(
             scores_filename,
@@ -386,9 +485,11 @@ def runJob():
             test_scores=test_scores,
             train_auc=train_auc,
             test_auc=test_auc,
+            feature_importances=importance,
+            feature_names=np.array(mvaVariables),
         )
 
-        importance = clf.feature_importances_
+        # importance = clf.feature_importances_
         ranking = sorted(zip(mvaVariables, importance), key=lambda x: x[1], reverse=True)
 
         print(f"\nVariable Importance Ranking: {config_name}")
@@ -429,5 +530,11 @@ def runJob():
         )
 
 
+    # print("Train signal weight:", w_train[y_train == 1].sum())
+    # print("Train background weight:", w_train[y_train == 0].sum())
+
+    # print("Test signal weight:", w_test[y_test == 1].sum())
+    # print("Test background weight:", w_test[y_test == 0].sum())
 if __name__ == "__main__":
     runJob()
+    # print(samples.keys())

@@ -10,11 +10,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import kstwobign
 from sklearn.metrics import roc_curve, roc_auc_score
 
-INPUT_DIR = "/eos/user/a/araghav/xgb_outputs"
+INPUT_DIR = "/eos/user/a/araghav/xgboost/outputs_ml-hep"
 OUTPUT_DIR = "/eos/user/a/araghav/www/BDT/plots_bdt_xgboost"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-DATASET_FILE = os.path.join(INPUT_DIR, "xgb_Hgg_dataset.npz")
+DATASET_FILE = os.path.join(INPUT_DIR, "xgb_Hgg_tuning.npz")
 if not os.path.exists(DATASET_FILE):
     raise RuntimeError(f"Shared dataset file not found: {DATASET_FILE}")
 
@@ -122,11 +122,27 @@ score_bins = np.linspace(0, 1, 41)
 bin_centers = 0.5 * (score_bins[:-1] + score_bins[1:])
 
 roc_results = {}     
+importance_results = {}
 ks_summary = []      
 
 for name in sorted(configs):
     d = np.load(configs[name], allow_pickle=True)
     s_tr, s_te = d["train_scores"], d["test_scores"]
+
+        # Feature importance (per config)
+    if "feature_importances" in d.files:
+        imp = np.asarray(d["feature_importances"], dtype=float)
+        fnames = [str(v) for v in d["feature_names"]]
+        importance_results[name] = dict(zip(fnames, imp))
+
+        order = np.argsort(imp)
+        fig, ax = plt.subplots(figsize=(7, max(4, 0.3 * len(fnames))))
+        ax.barh(np.array(fnames)[order], imp[order], color="steelblue")
+        ax.set_xlabel("Feature importance")
+        ax.set_title(f"Variable importance: {name}")
+        fig.tight_layout()
+        fig.savefig(os.path.join(OUTPUT_DIR, f"feature_importance_{name}.png"), dpi=150)
+        plt.close(fig)
 
     # ROC (test set) 
     fpr, tpr, _ = roc_curve(y_test, s_te, sample_weight=w_test)
@@ -183,6 +199,32 @@ plt.tight_layout()
 plt.savefig(os.path.join(OUTPUT_DIR, "roc_curve_all_configs.png"), dpi=150)
 plt.close()
 
+# Combined feature importance: mean +/- std across configs
+if importance_results:
+    all_vars = sorted({v for r in importance_results.values() for v in r})
+    mat = np.array([[r.get(v, np.nan) for v in all_vars]
+                    for r in importance_results.values()])
+    mean = np.nanmean(mat, axis=0)
+    std = np.nanstd(mat, axis=0)
+    order = np.argsort(mean)
+
+    fig, ax = plt.subplots(figsize=(8, max(4, 0.3 * len(all_vars))))
+    ax.barh(np.array(all_vars)[order], mean[order], xerr=std[order],
+            color="steelblue", ecolor="black", capsize=2)
+    ax.set_xlabel("Feature importance (mean ± std over configs)")
+    ax.set_title("Variable importance: all configurations")
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUTPUT_DIR, "feature_importance_all_configs.png"), dpi=150)
+    plt.close(fig)
+
+    # CSV: variables x configs
+    cfgs = list(importance_results.keys())
+    with open(os.path.join(OUTPUT_DIR, "feature_importance.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["variable"] + cfgs)
+        for v in all_vars:
+            w.writerow([v] + [importance_results[c].get(v, "") for c in cfgs])
+
 # KS summary table
 print("\n--- KS test summary (weighted, all configs) ---")
 header = f"{'Config':<20}{'KS(sig)':>10}{'p(sig)':>10}{'KS(bkg)':>10}{'p(bkg)':>10}  Verdict"
@@ -194,12 +236,12 @@ for row in sorted(ks_summary, key=lambda r: r["config"]):
     print(f"{row['config']:<20}{row['ks_signal']:>10.4f}{row['p_signal']:>10.4f}"
           f"{row['ks_background']:>10.4f}{row['p_background']:>10.4f}  {verdict}")
 
-csv_path = os.path.join(OUTPUT_DIR, "ks_summary.csv")
-with open(csv_path, "w", newline="") as f:
-    writer = csv.DictWriter(f, fieldnames=["config", "ks_signal", "p_signal", "ks_background", "p_background"])
-    writer.writeheader()
-    for row in sorted(ks_summary, key=lambda r: r["config"]):
-        writer.writerow(row)
+# csv_path = os.path.join(OUTPUT_DIR, "ks_summary.csv")
+# with open(csv_path, "w", newline="") as f:
+#     writer = csv.DictWriter(f, fieldnames=["config", "ks_signal", "p_signal", "ks_background", "p_background"])
+#     writer.writeheader()
+#     for row in sorted(ks_summary, key=lambda r: r["config"]):
+#         writer.writerow(row)
 
 print(f"\nSaved: correlation matrices, roc_curve_all_configs.png, "
       f"per-config overtraining plots, ks_summary.csv, per-variable plots.")

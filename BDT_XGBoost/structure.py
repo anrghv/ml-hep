@@ -8,15 +8,15 @@
 # ============== Backgrounds =============
 # =======================================
 
-structure['DY_train'] = {
+structure['DY'] = {
     'isSignal': 0,
     'isData': 0
 }
 
-structure['DY_test'] = {
-    'isSignal': 0,
-    'isData': 0
-}
+# structure['DY_test'] = {
+#     'isSignal': 0,
+#     'isData': 0
+# }
 
 
 # =======================================

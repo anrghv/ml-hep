@@ -33,3 +33,6 @@ Thumbs.db
 
 # AFS temporary files
 .__afs*
+
+
+BDT_XGBoost/condor/

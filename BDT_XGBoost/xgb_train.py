@@ -28,7 +28,7 @@ if not ok:
 # Toggles
 NEG_WEIGHT_MODE = "abs"
 # NEG_WEIGHT_MODE = "drop"
-isDEV = True
+isDEV = False
 # limitFiles = 1
 limitFiles = -1
 
@@ -217,18 +217,18 @@ def build_dataframe(sampleName, subentry_files, varnames, colmap):
 
 XGB_CONFIGS = {
 
-    "xgb_tuned_1": {
-    "n_estimators": 600,
-    "max_depth": 5,
-    "learning_rate": 0.12154323374774018,
-    "min_child_weight": 15,
-    "gamma": 2.8567812963999484,
-    "subsample": 0.6907226513881366,
-    "colsample_bytree": 0.5535883729682609,
-    "colsample_bynode": 0.6615567046239513,
-    "reg_alpha": 0.31352699641664766,
-    "reg_lambda": 2.761264429359447
-    },
+    # "xgb_tuned_1": {
+    # "n_estimators": 600,
+    # "max_depth": 5,
+    # "learning_rate": 0.12154323374774018,
+    # "min_child_weight": 15,
+    # "gamma": 2.8567812963999484,
+    # "subsample": 0.6907226513881366,
+    # "colsample_bytree": 0.5535883729682609,
+    # "colsample_bynode": 0.6615567046239513,
+    # "reg_alpha": 0.31352699641664766,
+    # "reg_lambda": 2.761264429359447
+    # },
 
     "xgb_tuned_2": {
         "n_estimators": 600,
@@ -243,31 +243,31 @@ XGB_CONFIGS = {
         "reg_lambda": 2.761264429359447
         },
 
-        "xgb_tuned_3": {
-            "n_estimators": 600,
-            "max_depth": 3,
-            "learning_rate": 0.12154323374774018,
-            "min_child_weight": 10,
-            "gamma": 2.8567812963999484,
-            "subsample": 0.6907226513881366,
-            "colsample_bytree": 0.5535883729682609,
-            "colsample_bynode": 0.6615567046239513,
-            "reg_alpha": 0.31352699641664766,
-            "reg_lambda": 2.761264429359447
-            },
+    #     "xgb_tuned_3": {
+    #         "n_estimators": 600,
+    #         "max_depth": 3,
+    #         "learning_rate": 0.12154323374774018,
+    #         "min_child_weight": 10,
+    #         "gamma": 2.8567812963999484,
+    #         "subsample": 0.6907226513881366,
+    #         "colsample_bytree": 0.5535883729682609,
+    #         "colsample_bynode": 0.6615567046239513,
+    #         "reg_alpha": 0.31352699641664766,
+    #         "reg_lambda": 2.761264429359447
+    #         },
 
-            "xgb_tuned_4": {
-                "n_estimators": 600,
-                "max_depth": 3,
-                "learning_rate": 0.12154323374774018,
-                "min_child_weight": 8,
-                "gamma": 2.8567812963999484,
-                "subsample": 0.6907226513881366,
-                "colsample_bytree": 0.5535883729682609,
-                "colsample_bynode": 0.6615567046239513,
-                "reg_alpha": 0.31352699641664766,
-                "reg_lambda": 2.761264429359447
-                },
+    #         "xgb_tuned_4": {
+    #             "n_estimators": 600,
+    #             "max_depth": 3,
+    #             "learning_rate": 0.12154323374774018,
+    #             "min_child_weight": 8,
+    #             "gamma": 2.8567812963999484,
+    #             "subsample": 0.6907226513881366,
+    #             "colsample_bytree": 0.5535883729682609,
+    #             "colsample_bynode": 0.6615567046239513,
+    #             "reg_alpha": 0.31352699641664766,
+    #             "reg_lambda": 2.761264429359447
+    #             },
 
 
 

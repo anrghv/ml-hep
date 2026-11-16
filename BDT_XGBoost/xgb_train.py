@@ -59,30 +59,16 @@ cut = preselections
 # MVA VARIABLES
 mvaVariables = [
     # Lepton kinematics
-    'Lepton_pt[0]',
+    # 'Lepton_pt[0]',
     'Lepton_pt[1]',
     'ptll',
-    'mll',
-
-    # Missing transverse energy
-    # 'PuppiMET_pt',
-
-    # Jet kinematics
-    # 'Alt(CleanJet_pt,0,0)',
-    # 'Alt(CleanJet_pt,1,0)',
-    # 'Alt(CleanJet_eta,0,0)',
-    # 'Alt(CleanJet_eta,1,0)',
-
+    # 'mll',
     # Lowest-QGL jet kinematics
     'LowestQGLJet_pt1',
-    'LowestQGLJet_pt2',
-    'LowestQGLJet_pt3',
-    # 'LowestQGLJet_eta1',
-    # 'LowestQGLJet_eta2',
-    # 'LowestQGLJet_phi1',
-    # 'LowestQGLJet_phi2',
+    # 'LowestQGLJet_pt2',
+    # 'LowestQGLJet_pt3',
     'LowestQGLJet_mass1',
-    'LowestQGLJet_mass2',
+    # 'LowestQGLJet_mass2',
 
     # Jet QGL information
     'qgl_j1_lowestqgl',
@@ -98,22 +84,34 @@ mvaVariables = [
     'mjj_qgl',
     # 'mjj_qgl_cc',
     # 'ptjj',
-    'ptjj_qgl',
+    # 'ptjj_qgl',
     'detajj',
     'detajj_qgl',
     'dphijj',
-    'dphijj_qgl',
+    # 'dphijj_qgl',
     'drjj',
-    'drjj_qgl',
+    # 'drjj_qgl',
 
     # Lepton-jet angular variables
-    'dphilljet',
+    # 'dphilljet',
     # 'dphilljet_qgl',
-    'dphilljetjet',
-    'dphilljetjet_qgl',
+    # 'dphilljetjet',
+    # 'dphilljetjet_qgl',
 
     # Jet multiplicity / QGL information
     # 'CleanJet_qgl_valid.size()',
+     # Missing transverse energy
+        # 'PuppiMET_pt',
+    
+        # Jet kinematics
+        # 'Alt(CleanJet_pt,0,0)',
+        # 'Alt(CleanJet_pt,1,0)',
+        # 'Alt(CleanJet_eta,0,0)',
+        # 'Alt(CleanJet_eta,1,0)',
+            # 'LowestQGLJet_eta1',
+    # 'LowestQGLJet_eta2',
+    # 'LowestQGLJet_phi1',
+    # 'LowestQGLJet_phi2',
 ]
 
 

@@ -25,18 +25,18 @@ eleWP = 'mvaFall17V2Iso_WP90'
 muWP  = 'cut_Tight_HWWW'
 
 # import os
-# header_path = "/afs/cern.ch/user/a/araghav/Analyses/Run3/ml-hep/BDT_XGBoost"
+header_path = "/afs/cern.ch/user/a/araghav/Analyses/Run3/ml-hep/BDT_XGBoost"
 # header_path = "/afs/cern.ch/user/a/araghav/Analyses/Run3/PlotsConfigurationsRun3/Hgg/2018UL/"
-# header_path = os.path.join(header_path, "headers.h")
+header_path = os.path.join(header_path, "headers.h")
 
-# if not os.path.exists(header_path):
-#     raise FileNotFoundError(f"Header file not found: {header_path}. Please ensure the path is correct.")
-# else:
-#     print(f"Header file found: {header_path}. Proceeding with configuration.")
+if not os.path.exists(header_path):
+    raise FileNotFoundError(f"Header file not found: {header_path}. Please ensure the path is correct.")
+else:
+    print(f"Header file found: {header_path}. Proceeding with configuration.")
 
 #     # Read the header file and include its contents
-#     with open(header_path, 'r') as f:
-#         header_contents = f.read()
+    with open(header_path, 'r') as f:
+        header_contents = f.read()
 #         print(f"Header file contents:\n{header_contents[:500]}...")  # Print first 500 characters for verification
 
 aliases['CleanJet_qgl'] = {

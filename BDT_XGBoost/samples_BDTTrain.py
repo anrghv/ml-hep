@@ -68,6 +68,11 @@ samples['ggZHgluglu'] = [
      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
 ]
 
+samples['ZH_HToGluGlu_ZToLL-M125'] = [
+    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")),
+     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
+]
+
 samples['DY'] = [
     {'tag': 'DY', 'files': flatten(
         # nanoGetSampleFiles(mcDirectory, 'DYJetsToLL_M-10to50_NLO')
@@ -82,9 +87,6 @@ samples['DY'] = [
 ]
 
 
-# =======================================================================
-# Test sample
-# = ====================================================================
 
 # samples['DY_test'] = [
 #     {'tag': 'DY', 'files': flatten(
@@ -99,10 +101,10 @@ samples['DY'] = [
 #                 'weight': mcCommonWeight, 'isSignal': False},
 # ]
 
-samples['ZH_HToGluGlu_ZToLL-M125'] = [
-    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")),
-     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
-]
+# samples['ZH_HToGluGlu_ZToLL-M125'] = [
+#     {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")),
+#      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
+# ]
 
 print("Limiting number of files per sample to:", limitFiles)
 print("Number of samples:", len(samples.keys()))

@@ -6,6 +6,7 @@ import numpy as np
 import ROOT
 from sklearn.metrics import roc_auc_score
 from xgboost import XGBClassifier
+import re
 
 ROOT.gErrorIgnoreLevel = ROOT.kError
 ROOT.ROOT.EnableImplicitMT()
@@ -118,31 +119,13 @@ mvaVariables = [
 
 PROCESS_SAMPLES = ["DY", "ZH_HToGluGlu_ZToLL-M125"]
 
-# # TRAIN / TEST SAMPLE DEFINITIONS
-# TRAIN_SAMPLES = [ 
-#     # 'Hgluglu',
-#     # 'qqZHgluglu',
-#     # 'ggZHgluglu',
-#     'DY',
-#     'ZH_HToGluGlu_ZToLL-M125'
-# ]
 
-# TEST_SAMPLES = [
-#     'ZH_HToGluGlu_ZToLL-M125',
-#     # 'DY_test'
-#     # 'Hgluglu',
-#     # 'qqZHgluglu',
-#     # 'ggZHgluglu',
-#     'DY'
-# ]
-
-
-if isDEV:
-    # allowed_samples = set(TRAIN_SAMPLES + TEST_SAMPLES)
-    allowed_samples = set(PROCESS_SAMPLES)
-    for sampleName in list(samples.keys()):
-        if sampleName not in allowed_samples:
-            samples.pop(sampleName)
+# if isDEV:
+#     # allowed_samples = set(TRAIN_SAMPLES + TEST_SAMPLES)
+#     allowed_samples = set(PROCESS_SAMPLES)
+#     for sampleName in list(samples.keys()):
+#         if sampleName not in allowed_samples:
+#             samples.pop(sampleName)
 
 
 # RDF HELPERS
@@ -184,33 +167,35 @@ def resolve_variables(df, varnames, colmap):
     return df
 
 
-def build_dataframe(sampleName, subentry_files, varnames, colmap):
+def required_aliases(sampleName, exprs):
+    """Aliases reachable from exprs, following nested alias references."""
+    applicable = {n: a for n, a in aliases.items() if alias_applies(sampleName, a)}
+    needed, stack = set(), list(exprs)
+    while stack:
+        e = stack.pop()
+        for tok in set(re.findall(r'[A-Za-z_]\w*', e)):
+            if tok in applicable and tok not in needed:
+                needed.add(tok)
+                stack.append(applicable[tok]['expr'])
+    return needed
 
+
+def build_dataframe(sampleName, subentry_files, varnames, colmap, weight_expr):
     chain = ROOT.TChain("Events")
-
     for f in subentry_files:
         chain.Add(f)
 
     df = ROOT.RDataFrame(chain)
-
     existing_cols = set(str(c) for c in df.GetColumnNames())
 
-    # Only define aliases that are actually required.
-    for aliasName, alias in aliases.items():
-        # if aliasName not in REQUIRED_ALIASES:
-        #     continue
-        if alias_applies(sampleName, alias):
-            if aliasName in existing_cols:
-                continue
-            df = df.Define(
-                aliasName,
-                alias['expr']
-            )
-    df = resolve_variables(
-        df,
-        varnames,
-        colmap
-    )
+    needed = required_aliases(sampleName, list(varnames) + [cut, weight_expr])
+    print(f"  [{sampleName}] aliases used: {sorted(needed)}")
+
+    for aliasName, alias in aliases.items():   # keeps definition order
+        if aliasName in needed and aliasName not in existing_cols:
+            df = df.Define(aliasName, alias['expr'])
+
+    df = resolve_variables(df, varnames, colmap)
     return df.Filter(cut)
 
 # XGBOOST CONFIGURATIONS
@@ -271,42 +256,6 @@ XGB_CONFIGS = {
 
 
 
-
-
-
-    # 1. Depth 6 with tuned L1/L2 regularization (building on d6_reg)
-    # "xgb_d6_lr03_n600_l2": {"n_estimators": 600, "max_depth": 6, "learning_rate": 0.03, "subsample": 0.8, "colsample_bytree": 0.7,
-    #                          "min_child_weight": 8,"reg_lambda": 3.0, "gamma": 1.5
-    # },
-    # "xgb_d6_lr03_n700_l1l2": { "n_estimators": 700, "max_depth": 6, "learning_rate": 0.03, "subsample": 0.8, "colsample_bytree": 0.7,
-    #                            "min_child_weight": 10, "reg_alpha": 0.5, "reg_lambda": 2.0, "gamma": 1.0
-    # },
-
-    # 3. Depth 5 deeper optimization (highly robust against overtraining)
-    # "xgb_d5_lr03_n700_dense": {"n_estimators": 200, "max_depth": 3, "learning_rate": 0.03, "subsample": 0.85, "colsample_bytree": 0.75,
-    #                             "min_child_weight": 5, "reg_lambda": 2.0, "gamma": 0.5
-    # },
-    # "xgb_d5_lr04_n600_l1": {"n_estimators": 600, "max_depth": 5, "learning_rate": 0.04, "subsample": 0.8, "colsample_bytree": 0.7, 
-    #                          "min_child_weight": 6, "reg_alpha": 0.2, "reg_lambda": 1.0
-    # },
-    # 2. Depth 6 with node-level subsampling (forces orthogonal kinematic splits)
-    # "xgb_d6_lr04_n600_node": { "n_estimators": 600, "max_depth": 6, "learning_rate": 0.04, "subsample": 0.8, "colsample_bytree": 0.8,
-    #                            "colsample_bynode": 0.7, "min_child_weight": 8, "reg_lambda": 1.5
-    # },
-
-
-    # 4. Depth 7 with heavy regularization (curbing the overtraining seen in d7/d8)
-    # "xgb_d7_lr02_n800_heavyreg": { "n_estimators": 800, "max_depth": 7, "learning_rate": 0.02, "subsample": 0.8, "colsample_bytree": 0.65,
-    #                                "min_child_weight": 12, "reg_alpha": 1.0, "reg_lambda": 5.0, "gamma": 2.0
-    # },
-    # "xgb_d7_lr02_n700_mcw15": { "n_estimators": 700, "max_depth": 7, "learning_rate": 0.02, "subsample": 0.8, "colsample_bytree": 0.6,
-    #                             "min_child_weight": 15, "reg_lambda": 3.0, "gamma": 1.5
-    # },
-
-    # 5. Fast convergence checks (moderate trees, slightly higher LR)
-    # "xgb_d6_lr06_n500_reg": { "n_estimators": 500, "max_depth": 6, "learning_rate": 0.06, "subsample": 0.8, "colsample_bytree": 0.7,
-    #                         "min_child_weight": 10, "reg_alpha": 0.2, "reg_lambda": 2.0, "gamma": 1.0
-    # },
 }
 
 # MAIN
@@ -318,13 +267,13 @@ def runJob():
 
     # LOAD EVENTS
     for sampleName, subentries in samples.items():
-        # if sampleName not in TRAIN_SAMPLES and sampleName not in TEST_SAMPLES:
-        if sampleName not in PROCESS_SAMPLES:
-            print(
-                f"WARNING: sample '{sampleName}' is not in "
-                "TRAIN_SAMPLES or TEST_SAMPLES, skipping"
-            )
-            continue
+    #     # if sampleName not in TRAIN_SAMPLES and sampleName not in TEST_SAMPLES:
+    #     if sampleName not in PROCESS_SAMPLES:
+    #         print(
+    #             f"WARNING: sample '{sampleName}' is not in "
+    #             "TRAIN_SAMPLES or TEST_SAMPLES, skipping"
+    #         )
+    #         continue
 
         if structure[sampleName]['isData'] == 1:
             continue
@@ -334,13 +283,13 @@ def runJob():
         # else:
         #     bucket = "test"
 
-        isSig = structure[sampleName]['isSignal']
+        isSig = int(structure[sampleName]['isSignal'])
 
         # print(
         #     f"Processing sample: {sampleName} -> "
         #     f"{bucket} ({len(subentries)} sub-entries)"
         # )
-        print(f"Processing sample: {sampleName} (Splitting even/odds events)")
+        print(f"\nProcessing sample: {sampleName} (Splitting even/odds events)")
 
         for sub in subentries:
             tag = sub['tag']
@@ -354,7 +303,8 @@ def runJob():
                 sampleName,
                 files,
                 mvaVariables,
-                colmap
+                colmap,
+                weight_expr
             )
             df = df.Define("eventWeight", weight_expr)
             has_event_branch = "event" in [str(c) for c in df.GetColumnNames()]
@@ -372,13 +322,14 @@ def runJob():
 
             X = np.column_stack([data[colmap[v]] for v in mvaVariables])
             w = np.asarray(data["eventWeight"], dtype=np.float64)
-            y = np.full(n, isSig)
+            y = np.full(n, isSig, dtype=np.int32)
 
             if NEG_WEIGHT_MODE == "abs":
                 w = np.abs(w)
             elif NEG_WEIGHT_MODE == "drop":
                 keep = w > 0
-                X = X[keep], y = y[keep], w = w[keep]
+                # X = X[keep], y = y[keep], w = w[keep]
+                X, y, w = X[keep], y[keep], w[keep]
                 if has_event_branch: 
                     data["event"] = data["event"][keep]
                 n = keep.sum()

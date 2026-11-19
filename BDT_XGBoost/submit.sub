@@ -1,6 +1,6 @@
 # Executable script
-# executable            = run_bdt.sh
-executable            = tune_bdt.sh
+ executable            = run_bdt.sh
+# executable            = tune_bdt.sh
 
 # Output files
 output                = condor/output/xgb.$(ClusterId).$(ProcId).out
@@ -13,7 +13,7 @@ log                   = condor/log/xgb.$(ClusterId).log
 # request_disk           = 10GB
 
 # Job duration
-+JobFlavour            = "tomorrow  "
++JobFlavour            = "tomorrow"
 
 
 # Automatically transfer input/output files

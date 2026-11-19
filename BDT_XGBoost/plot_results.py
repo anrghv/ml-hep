@@ -11,6 +11,7 @@ from scipy.stats import kstwobign
 from sklearn.metrics import roc_curve, roc_auc_score
 
 INPUT_DIR = "/eos/user/a/araghav/xgboost/outputs_ml-hep"
+
 OUTPUT_DIR = "/eos/user/a/araghav/www/BDT/plots_bdt_xgboost"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -24,6 +25,7 @@ X_test, y_test, w_test = dset["X_test"], dset["y_test"], dset["w_test"]
 varnames = list(dset["mvaVariables"])
 
 npz_files = sorted(glob.glob(os.path.join(INPUT_DIR, "xgb_Hgg_scores_*.npz")))
+# npz_files = sorted(glob.glob(os.path.join(INPUT_DIR, "xgb_Hgg_scores_xgb_tuned_2.npz ")))
 if not npz_files:
     raise RuntimeError(f"No score files found in {INPUT_DIR}")
 

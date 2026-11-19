@@ -62,7 +62,7 @@ mvaVariables = [
     # 'Lepton_pt[0]',
     'Lepton_pt[1]',
     'ptll',
-    # 'mll',
+    'mll',
     # Lowest-QGL jet kinematics
     'LowestQGLJet_pt1',
     # 'LowestQGLJet_pt2',
@@ -74,9 +74,9 @@ mvaVariables = [
     'qgl_j1_lowestqgl',
 
     # Jet b-tagging information
-    'btagDeepBj1_lowestqgl',
-    'btagDeepBj2_lowestqgl',
-    'btagCSVV2j1_lowestqgl',
+    # 'btagDeepBj1_lowestqgl',
+    # 'btagDeepBj2_lowestqgl',
+    # 'btagCSVV2j1_lowestqgl',
     # 'btagCSVV2j2_lowestqgl',
 
     # Dijet kinematics
@@ -87,7 +87,7 @@ mvaVariables = [
     # 'ptjj_qgl',
     'detajj',
     'detajj_qgl',
-    'dphijj',
+    # 'abs(dphijj)',
     # 'dphijj_qgl',
     'drjj',
     # 'drjj_qgl',
@@ -98,17 +98,15 @@ mvaVariables = [
     # 'dphilljetjet',
     # 'dphilljetjet_qgl',
 
-    # Jet multiplicity / QGL information
-    # 'CleanJet_qgl_valid.size()',
-     # Missing transverse energy
-        # 'PuppiMET_pt',
+    # Missing transverse energy
+    # 'PuppiMET_pt',
     
-        # Jet kinematics
-        # 'Alt(CleanJet_pt,0,0)',
-        # 'Alt(CleanJet_pt,1,0)',
-        # 'Alt(CleanJet_eta,0,0)',
-        # 'Alt(CleanJet_eta,1,0)',
-            # 'LowestQGLJet_eta1',
+    # Jet kinematics
+    'Alt(CleanJet_pt,0,0)',
+    'Alt(CleanJet_pt,1,0)',
+    # 'Alt(CleanJet_eta,0,0)',
+    # 'Alt(CleanJet_eta,1,0)',
+    # 'LowestQGLJet_eta1',
     # 'LowestQGLJet_eta2',
     # 'LowestQGLJet_phi1',
     # 'LowestQGLJet_phi2',
@@ -138,30 +136,16 @@ def alias_applies(sampleName, alias):
 def make_valid_column_names(varnames):
     mapping = {}
     for v in varnames:
-        if any(c in v for c in "[]"):
-            mapping[v] = v.replace("[", "_").replace("]", "")
-        else:
-            mapping[v] = v
+        safe = re.sub(r'\W+', '_', v).strip('_')   # abs(dphijj) -> abs_dphijj
+        mapping[v] = safe
     return mapping
 
 def resolve_variables(df, varnames, colmap):
     available = set(str(c) for c in df.GetColumnNames())
-    missing = []
     for orig, safe in colmap.items():
-        if orig in available:
-            if orig != safe:
-                df = df.Define(safe, orig)
-        elif "[" in orig:
-            df = df.Define(safe, orig)
-        else:
-            missing.append(orig)
-    if missing:
-        raise RuntimeError(
-            "The following mvaVariables are neither a defined alias nor a "
-            f"real branch on this sample's tree: {missing}\n"
-            "Add them to aliases.py, or confirm the exact branch name "
-            "in the ntuple."
-        )
+        if orig == safe and orig in available:
+            continue
+        df = df.Define(safe, orig)   # alias, branch with [], or expression
     return df
 
 
@@ -197,65 +181,61 @@ def build_dataframe(sampleName, subentry_files, varnames, colmap, weight_expr):
     return df.Filter(cut)
 
 # XGBOOST CONFIGURATIONS
-
 XGB_CONFIGS = {
 
-    # "xgb_tuned_1": {
-    # "n_estimators": 600,
-    # "max_depth": 5,
-    # "learning_rate": 0.12154323374774018,
-    # "min_child_weight": 15,
-    # "gamma": 2.8567812963999484,
-    # "subsample": 0.6907226513881366,
-    # "colsample_bytree": 0.5535883729682609,
-    # "colsample_bynode": 0.6615567046239513,
-    # "reg_alpha": 0.31352699641664766,
-    # "reg_lambda": 2.761264429359447
+    "xgb_config_1": {
+    "n_estimators": 100,
+    "max_depth": 3,
+    "learning_rate": 0.05008107160377287,
+    "min_child_weight": 41,
+    "gamma": 0.01864371812614296,
+    "subsample": 0.5951099240132968,
+    "colsample_bytree": 0.9111947557404338,
+    "colsample_bynode": 0.9805630111435243,
+    "reg_alpha": 0.03463365205516163,
+    "reg_lambda": 2.84898057839644
+    }
+    ,
+
+   "xgb_config_2": {
+       "n_estimators": 200,
+       "max_depth": 3,
+       "learning_rate": 0.05008107160377287,
+       "min_child_weight": 41,
+       "gamma": 0.01864371812614296,
+       "subsample": 0.5951099240132968,
+       "colsample_bytree": 0.9111947557404338,
+       "colsample_bynode": 0.9805630111435243,
+       "reg_alpha": 0.03463365205516163,
+       "reg_lambda": 2.84898057839644
+       }, 
+
+   "xgb_config_3": {
+       "n_estimators": 300,
+       "max_depth": 3,
+       "learning_rate": 0.05008107160377287,
+       "min_child_weight": 20,
+       "subsample": 0.5951099240132968,
+       "colsample_bytree": 0.9111947557404338,
+       "colsample_bynode": 0.9805630111435243,
+       "reg_alpha": 0.03463365205516163,
+       "reg_lambda": 2.84898057839644
+       }
+
+    # "xgb_tuned_4": {
+    #     "n_estimators": 600,
+    #     "max_depth": 3,
+    #     "learning_rate": 0.12154323374774018,
+    #     "min_child_weight": 8,
+    #     "gamma": 2.8567812963999484,
+    #     "subsample": 0.6907226513881366,
+    #     "colsample_bytree": 0.5535883729682609,
+    #     "colsample_bynode": 0.6615567046239513,
+    #     "reg_alpha": 0.31352699641664766,
+    #     "reg_lambda": 2.761264429359447,
     # },
 
-    "xgb_tuned_2": {
-        "n_estimators": 600,
-        "max_depth": 3,
-        "learning_rate": 0.12154323374774018,
-        "min_child_weight": 15,
-        "gamma": 2.8567812963999484,
-        "subsample": 0.6907226513881366,
-        "colsample_bytree": 0.5535883729682609,
-        "colsample_bynode": 0.6615567046239513,
-        "reg_alpha": 0.31352699641664766,
-        "reg_lambda": 2.761264429359447
-        },
-
-    #     "xgb_tuned_3": {
-    #         "n_estimators": 600,
-    #         "max_depth": 3,
-    #         "learning_rate": 0.12154323374774018,
-    #         "min_child_weight": 10,
-    #         "gamma": 2.8567812963999484,
-    #         "subsample": 0.6907226513881366,
-    #         "colsample_bytree": 0.5535883729682609,
-    #         "colsample_bynode": 0.6615567046239513,
-    #         "reg_alpha": 0.31352699641664766,
-    #         "reg_lambda": 2.761264429359447
-    #         },
-
-    #         "xgb_tuned_4": {
-    #             "n_estimators": 600,
-    #             "max_depth": 3,
-    #             "learning_rate": 0.12154323374774018,
-    #             "min_child_weight": 8,
-    #             "gamma": 2.8567812963999484,
-    #             "subsample": 0.6907226513881366,
-    #             "colsample_bytree": 0.5535883729682609,
-    #             "colsample_bynode": 0.6615567046239513,
-    #             "reg_alpha": 0.31352699641664766,
-    #             "reg_lambda": 2.761264429359447
-    #             },
-
-
-
 }
-
 # MAIN
 def runJob():
 

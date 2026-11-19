@@ -1,83 +1,116 @@
-Declared headers.h: True
-Need to query for files for folder /eos/user/a/amassiro/HIG/ZHggPostProc/Summer20UL18_106x_nAODv9_Full2018v9/MCFull2018v9/
-Need to query for files for folder /eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano/Summer20UL18_106x_nAODv9_Full2018v9/MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9/
-with redirector root://eoscms.cern.ch/
-Limiting number of files per sample to: -1
-Number of samples: 5
-Sample: Hgluglu sub-entries: 1 total files: 60
-Sample: qqZHgluglu sub-entries: 1 total files: 9984
-Sample: ggZHgluglu sub-entries: 1 total files: 9946
-Sample: ZH_HToGluGlu_ZToLL-M125 sub-entries: 1 total files: 72
-Sample: DY sub-entries: 1 total files: 303
-Header file found: /afs/cern.ch/user/a/araghav/Analyses/Run3/ml-hep/BDT_XGBoost/headers.h. Proceeding with configuration.
-
-Processing sample: Hgluglu (Splitting even/odds events)
-  [Hgluglu] aliases used: ['CleanJet_qgl', 'Lepton_4DV1', 'Lepton_4DV2', 'LowestQGLIdx', 'LowestQGLJet_4DV1', 'LowestQGLJet_4DV2', 'LowestQGLJet_eta1', 'LowestQGLJet_eta2', 'LowestQGLJet_mass1', 'LowestQGLJet_phi1', 'LowestQGLJet_phi2', 'LowestQGLJet_pt1', 'btagCSVV2j1_lowestqgl', 'btagDeepBj1_lowestqgl', 'btagDeepBj2_lowestqgl', 'detajj_qgl', 'dphijj_qgl', 'dphilljetjet_qgl', 'drjj', 'drjj_qgl', 'mjj_qgl', 'ptjj_qgl', 'qgl_j1_lowestqgl']
-  [Hgluglu] -> 8573 total events (4279 train, 4294 test)
-
-Processing sample: qqZHgluglu (Splitting even/odds events)
-  [qqZHgluglu] aliases used: ['CleanJet_qgl', 'Lepton_4DV1', 'Lepton_4DV2', 'LowestQGLIdx', 'LowestQGLJet_4DV1', 'LowestQGLJet_4DV2', 'LowestQGLJet_eta1', 'LowestQGLJet_eta2', 'LowestQGLJet_mass1', 'LowestQGLJet_phi1', 'LowestQGLJet_phi2', 'LowestQGLJet_pt1', 'btagCSVV2j1_lowestqgl', 'btagDeepBj1_lowestqgl', 'btagDeepBj2_lowestqgl', 'detajj_qgl', 'dphijj_qgl', 'dphilljetjet_qgl', 'drjj', 'drjj_qgl', 'mjj_qgl', 'ptjj_qgl', 'qgl_j1_lowestqgl']
-  [qqZHgluglu] -> 143158 total events (71605 train, 71553 test)
-
-Processing sample: ggZHgluglu (Splitting even/odds events)
-  [ggZHgluglu] aliases used: ['CleanJet_qgl', 'Lepton_4DV1', 'Lepton_4DV2', 'LowestQGLIdx', 'LowestQGLJet_4DV1', 'LowestQGLJet_4DV2', 'LowestQGLJet_eta1', 'LowestQGLJet_eta2', 'LowestQGLJet_mass1', 'LowestQGLJet_phi1', 'LowestQGLJet_phi2', 'LowestQGLJet_pt1', 'btagCSVV2j1_lowestqgl', 'btagDeepBj1_lowestqgl', 'btagDeepBj2_lowestqgl', 'detajj_qgl', 'dphijj_qgl', 'dphilljetjet_qgl', 'drjj', 'drjj_qgl', 'mjj_qgl', 'ptjj_qgl', 'qgl_j1_lowestqgl']
-  [ggZHgluglu] -> 212301 total events (106574 train, 105727 test)
-
-Processing sample: ZH_HToGluGlu_ZToLL-M125 (Splitting even/odds events)
-  [ZH_HToGluGlu_ZToLL-M125] aliases used: ['CleanJet_qgl', 'Lepton_4DV1', 'Lepton_4DV2', 'LowestQGLIdx', 'LowestQGLJet_4DV1', 'LowestQGLJet_4DV2', 'LowestQGLJet_eta1', 'LowestQGLJet_eta2', 'LowestQGLJet_mass1', 'LowestQGLJet_phi1', 'LowestQGLJet_phi2', 'LowestQGLJet_pt1', 'btagCSVV2j1_lowestqgl', 'btagDeepBj1_lowestqgl', 'btagDeepBj2_lowestqgl', 'detajj_qgl', 'dphijj_qgl', 'dphilljetjet_qgl', 'drjj', 'drjj_qgl', 'mjj_qgl', 'ptjj_qgl', 'qgl_j1_lowestqgl']
-  [ggZHgluglu] -> 480858 total events (240709 train, 240149 test)
-
-Processing sample: DY (Splitting even/odds events)
-  [DY] aliases used: ['CleanJet_qgl', 'Jet_PUIDSF', 'LepWPCut', 'LepWPSF', 'Lepton_4DV1', 'Lepton_4DV2', 'LowestQGLIdx', 'LowestQGLJet_4DV1', 'LowestQGLJet_4DV2', 'LowestQGLJet_eta1', 'LowestQGLJet_eta2', 'LowestQGLJet_mass1', 'LowestQGLJet_phi1', 'LowestQGLJet_phi2', 'LowestQGLJet_pt1', 'PromptGenLepMatch2l', 'SFweight', 'bReq', 'bReqSF', 'bVeto', 'bVetoSF', 'btagCSVV2j1_lowestqgl', 'btagDeepBj1_lowestqgl', 'btagDeepBj2_lowestqgl', 'btagSF', 'detajj_qgl', 'dphijj_qgl', 'dphilljetjet_qgl', 'drjj', 'drjj_qgl', 'mjj_qgl', 'ptjj_qgl', 'qgl_j1_lowestqgl', 'topcr', 'zeroJet']
-  [DY] -> 6391210 total events (3194550 train, 3196660 test)
-
 Dataset summary
 ----------------------------------------
-Training events : 3617717
-Testing events  : 3618383
-Training signal : 423167
-Training bkg    : 3194550
-Testing signal  : 421723
-Testing bkg     : 3196660
+Training events : 1533385
+Testing events  : 1533424
+Training signal : 277994
+Training bkg    : 1255391
+Testing signal  : 277641
+Testing bkg     : 1255783
 Saved shared dataset -> /eos/user/a/araghav/xgboost/outputs_ml-hep/xgb_Hgg_tuning.npz
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Training configuration: xgb_tuned_2
+Training configuration: xgb_config_1
 Parameters:
-  n_estimators: 600
+  n_estimators: 100
   max_depth: 3
-  learning_rate: 0.12154323374774018
-  min_child_weight: 15
-  gamma: 2.8567812963999484
-  subsample: 0.6907226513881366
-  colsample_bytree: 0.5535883729682609
-  colsample_bynode: 0.6615567046239513
-  reg_alpha: 0.31352699641664766
-  reg_lambda: 2.761264429359447
+  learning_rate: 0.05008107160377287
+  min_child_weight: 41
+  gamma: 0.01864371812614296
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
 
-Train AUC: 0.9260
-Test AUC:  0.9250
+Train AUC: 0.8182
+Test AUC:  0.8178
 
-Variable Importance Ranking: xgb_tuned_2
+Variable Importance Ranking: xgb_config_1
 ----------------------------------------
- 1 : dphijj                    0.4448
- 2 : ptll                      0.1017
- 3 : qgl_j1_lowestqgl          0.0997
- 4 : LowestQGLJet_pt1          0.0671
- 5 : detajj                    0.0565
- 6 : LowestQGLJet_mass1        0.0511
- 7 : mjj                       0.0400
- 8 : drjj                      0.0322
- 9 : Lepton_pt[1]              0.0304
-10 : btagDeepBj1_lowestqgl     0.0224
-11 : btagDeepBj2_lowestqgl     0.0188
-12 : mjj_qgl                   0.0150
-13 : detajj_qgl                0.0143
-14 : btagCSVV2j1_lowestqgl     0.0061
+ 1 : LowestQGLJet_mass1        0.2351
+ 2 : ptll                      0.1215
+ 3 : Alt(CleanJet_pt,1,0)      0.1065
+ 4 : drjj                      0.0930
+ 5 : qgl_j1_lowestqgl          0.0922
+ 6 : LowestQGLJet_pt1          0.0737
+ 7 : detajj                    0.0612
+ 8 : mjj                       0.0518
+ 9 : Alt(CleanJet_pt,0,0)      0.0511
+10 : mjj_qgl                   0.0410
+11 : detajj_qgl                0.0392
+12 : Lepton_pt[1]              0.0206
+13 : mll                       0.0131
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Training configuration: xgb_config_2
+Parameters:
+  n_estimators: 200
+  max_depth: 3
+  learning_rate: 0.05008107160377287
+  min_child_weight: 41
+  gamma: 0.01864371812614296
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
+
+Train AUC: 0.8243
+Test AUC:  0.8235
+
+Variable Importance Ranking: xgb_config_2
+----------------------------------------
+ 1 : LowestQGLJet_mass1        0.1590
+ 2 : ptll                      0.1452
+ 3 : qgl_j1_lowestqgl          0.1233
+ 4 : Alt(CleanJet_pt,1,0)      0.1157
+ 5 : detajj                    0.0775
+ 6 : drjj                      0.0773
+ 7 : mjj                       0.0623
+ 8 : Alt(CleanJet_pt,0,0)      0.0565
+ 9 : LowestQGLJet_pt1          0.0525
+10 : mjj_qgl                   0.0461
+11 : detajj_qgl                0.0434
+12 : Lepton_pt[1]              0.0249
+13 : mll                       0.0163
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Training configuration: xgb_config_3
+Parameters:
+  n_estimators: 300
+  max_depth: 3
+  learning_rate: 0.05008107160377287
+  min_child_weight: 20
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
+
+Train AUC: 0.8274
+Test AUC:  0.8262
+
+Variable Importance Ranking: xgb_config_3
+----------------------------------------
+ 1 : ptll                      0.1576
+ 2 : qgl_j1_lowestqgl          0.1530
+ 3 : Alt(CleanJet_pt,1,0)      0.1272
+ 4 : LowestQGLJet_mass1        0.0987
+ 5 : detajj                    0.0836
+ 6 : mjj                       0.0702
+ 7 : drjj                      0.0680
+ 8 : Alt(CleanJet_pt,0,0)      0.0565
+ 9 : mjj_qgl                   0.0484
+10 : LowestQGLJet_pt1          0.0472
+11 : detajj_qgl                0.0428
+12 : Lepton_pt[1]              0.0271
+13 : mll                       0.0199
 
 ==========================================================================================
 XGBoost Configuration Summary
 ==========================================================================================
 Config                 Depth   Trees        LR   Subsample     MCW   Train AUC    Test AUC  Difference
 ------------------------------------------------------------------------------------------
-xgb_tuned_2                3     600     0.122        0.69      15      0.9260      0.9250      0.0010
+xgb_config_1               3     100     0.050        0.60      41      0.8182      0.8178      0.0005
+xgb_config_2               3     200     0.050        0.60      41      0.8243      0.8235      0.0008
+xgb_config_3               3     300     0.050        0.60      20      0.8274      0.8262      0.0012

@@ -383,9 +383,13 @@ def runJob():
         
         clf = XGBClassifier(**params, eval_metric="logloss")
 
-        # clf.fit(X_train, y_train, sample_weight=None)
-        clf.fit(X_train, y_train, sample_weight=w_train_norm)
+        clf.fit(
+                X_train,
+                y_train,
+                sample_weight=w_train_norm
+                )
 
+        # clf.fit(X_train, y_train, sample_weight=None)
         train_scores = clf.predict_proba(X_train)[:, 1]
         test_scores = clf.predict_proba(X_test)[:, 1]
 

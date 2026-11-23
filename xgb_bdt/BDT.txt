@@ -1,0 +1,116 @@
+Dataset summary
+----------------------------------------
+Training events : 1533385
+Testing events  : 1533424
+Training signal : 277994
+Training bkg    : 1255391
+Testing signal  : 277641
+Testing bkg     : 1255783
+Saved shared dataset -> /eos/user/a/araghav/xgboost/outputs_ml-hep/xgb_Hgg_tuning.npz
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Training configuration: xgb_config_1
+Parameters:
+  n_estimators: 100
+  max_depth: 3
+  learning_rate: 0.05008107160377287
+  min_child_weight: 41
+  gamma: 0.01864371812614296
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
+
+Train AUC: 0.8182
+Test AUC:  0.8178
+
+Variable Importance Ranking: xgb_config_1
+----------------------------------------
+ 1 : LowestQGLJet_mass1        0.2351
+ 2 : ptll                      0.1215
+ 3 : Alt(CleanJet_pt,1,0)      0.1065
+ 4 : drjj                      0.0930
+ 5 : qgl_j1_lowestqgl          0.0922
+ 6 : LowestQGLJet_pt1          0.0737
+ 7 : detajj                    0.0612
+ 8 : mjj                       0.0518
+ 9 : Alt(CleanJet_pt,0,0)      0.0511
+10 : mjj_qgl                   0.0410
+11 : detajj_qgl                0.0392
+12 : Lepton_pt[1]              0.0206
+13 : mll                       0.0131
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Training configuration: xgb_config_2
+Parameters:
+  n_estimators: 200
+  max_depth: 3
+  learning_rate: 0.05008107160377287
+  min_child_weight: 41
+  gamma: 0.01864371812614296
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
+
+Train AUC: 0.8243
+Test AUC:  0.8235
+
+Variable Importance Ranking: xgb_config_2
+----------------------------------------
+ 1 : LowestQGLJet_mass1        0.1590
+ 2 : ptll                      0.1452
+ 3 : qgl_j1_lowestqgl          0.1233
+ 4 : Alt(CleanJet_pt,1,0)      0.1157
+ 5 : detajj                    0.0775
+ 6 : drjj                      0.0773
+ 7 : mjj                       0.0623
+ 8 : Alt(CleanJet_pt,0,0)      0.0565
+ 9 : LowestQGLJet_pt1          0.0525
+10 : mjj_qgl                   0.0461
+11 : detajj_qgl                0.0434
+12 : Lepton_pt[1]              0.0249
+13 : mll                       0.0163
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Training configuration: xgb_config_3
+Parameters:
+  n_estimators: 300
+  max_depth: 3
+  learning_rate: 0.05008107160377287
+  min_child_weight: 20
+  subsample: 0.5951099240132968
+  colsample_bytree: 0.9111947557404338
+  colsample_bynode: 0.9805630111435243
+  reg_alpha: 0.03463365205516163
+  reg_lambda: 2.84898057839644
+
+Train AUC: 0.8274
+Test AUC:  0.8262
+
+Variable Importance Ranking: xgb_config_3
+----------------------------------------
+ 1 : ptll                      0.1576
+ 2 : qgl_j1_lowestqgl          0.1530
+ 3 : Alt(CleanJet_pt,1,0)      0.1272
+ 4 : LowestQGLJet_mass1        0.0987
+ 5 : detajj                    0.0836
+ 6 : mjj                       0.0702
+ 7 : drjj                      0.0680
+ 8 : Alt(CleanJet_pt,0,0)      0.0565
+ 9 : mjj_qgl                   0.0484
+10 : LowestQGLJet_pt1          0.0472
+11 : detajj_qgl                0.0428
+12 : Lepton_pt[1]              0.0271
+13 : mll                       0.0199
+
+==========================================================================================
+XGBoost Configuration Summary
+==========================================================================================
+Config                 Depth   Trees        LR   Subsample     MCW   Train AUC    Test AUC  Difference
+------------------------------------------------------------------------------------------
+xgb_config_1               3     100     0.050        0.60      41      0.8182      0.8178      0.0005
+xgb_config_2               3     200     0.050        0.60      41      0.8243      0.8235      0.0008
+xgb_config_3               3     300     0.050        0.60      20      0.8274      0.8262      0.0012

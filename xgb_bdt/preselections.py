@@ -1,0 +1,42 @@
+
+
+# preselections = (
+#     "mjj_qgl > 0"
+#     " && ptjj_qgl > 0"
+#     " && detajj_qgl > 0"
+#     " && drjj_qgl > 0"
+#     " && dphilljetjet_qgl > 0"
+#     " && detajj > 0"
+#     "&& drjj > 0"
+#     " && dphijj_qgl >0"
+#     " && ptll >0"
+
+# )
+
+
+preselections = (
+    'mll>12'
+    ' && Lepton_pt[0]>25'
+    ' && Lepton_pt[1]>10'
+    ' && Alt(Lepton_pt,2,0) < 15'
+    ' && (abs(Lepton_pdgId[1])==13 || Lepton_pt[1]>13)'
+    ' && abs(Lepton_eta[0])<2.5 && abs(Lepton_eta[1])<2.5'
+    ' && (abs(Lepton_pdgId[0])==abs(Lepton_pdgId[1]))'
+    ' && bVeto'
+    ' && LowestQGLJet_pt1>18 '
+    ' && LowestQGLJet_pt2>18 '
+    ' && abs(LowestQGLJet_eta1)<3'
+    ' && abs(LowestQGLJet_eta2)<3'
+    ' && ptjj_qgl>0'
+    ' && drjj_qgl>0'
+    ' && dphilljetjet_qgl>0'
+    ' && dphilljetjet >0'
+    ' && dphilljet_qgl>0'
+    ' && dphijj_qgl>0'
+    ' && btagDeepBj1_lowestqgl >0'
+    ' && btagDeepBj2_lowestqgl >0'
+    ' && btagCSVV2j1_lowestqgl >0'
+    ' && btagCSVV2j2_lowestqgl >0'
+    ' && LowestQGLJet_pt3 >0'
+)
+

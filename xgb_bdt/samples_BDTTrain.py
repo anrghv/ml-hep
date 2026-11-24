@@ -8,17 +8,42 @@ ROOT.gErrorIgnoreLevel = ROOT.kFatal
 mcProduction = 'Summer20UL18_106x_nAODv9_Full2018v9'
 mcSteps      = 'MCl1loose2018v9__MCCorr2018v9NoJERInHorn__l2tightOR2018v9'
 treeBaseDir  = '/eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano'
+
+dataReco = 'Run2018_UL2018_nAODv9_Full2018v9'
+fakeSteps = 'DATAl1loose2018v9__l2loose__fakeW'
+dataSteps = 'DATAl1loose2018v9__l2loose__l2tightOR2018v9'
+
+#--------- Keep it commented, limitfiles is set in k-xgb.py and xgb_train.py
+#--------- Uncomment here if you are explicitly debugging this script
 # limitFiles   = -1   
 # limitFiles   = 1
 
-def makeMCDirectory():
-    return os.path.join(treeBaseDir, mcProduction, mcSteps)
+def makeMCDirectory(var=""):
+    _treeBaseDir = treeBaseDir + ""
+    if var == "":
+        return "/".join([_treeBaseDir, mcProduction, mcSteps])
+    else:
+        return "/".join([_treeBaseDir, mcProduction, mcSteps + "__" + var])
 
 mcDirectory = makeMCDirectory()
+fakeDirectory = os.path.join(treeBaseDir, dataReco, fakeSteps)
+dataDirectory = os.path.join(treeBaseDir, dataReco, dataSteps)
 
-from mkShapesRDF.lib.search_files import SearchFiles
+
+from search_files import SearchFiles
 s = SearchFiles()
+
+useXROOTD = False
 redirector = 'root://eoscms.cern.ch/'
+
+# def nanoGetSampleFiles(path, name):
+#   _files = searchFiles.searchFiles(path, name, redirector=redirector)
+#   return  {name : _files}
+
+# # local files (e.g. /eos/user/...), no redirector
+# def nanoGetLocalSampleFiles(path, name):
+#   _files = searchFiles.searchFiles(path, name, redirector='')
+#   return  {name : _files}
 
 
 def nanoGetSampleFiles(path, name):
@@ -33,8 +58,26 @@ def nanoGetLocalSampleFiles(path, name):
         return [(name, _files[:limitFiles])]
     return [(name, _files)]
 
+
+
+def addSubSampleWeights(samples, sampleName, subSampleName, weight):
+  if 'weights' not in samples[sampleName].keys():
+    samples[sampleName]['weights'] = {}
+  if subSampleName in samples[sampleName]['weights'].keys():
+    samples[sampleName]['weights'][subSampleName] = "(" + samples[sampleName]['weights'][subSampleName] + ") * " +  weight
+  else :
+    samples[sampleName]['weights'][subSampleName] = weight
+
+
 def flatten(tagged_files):
     return [f for _, filelist in tagged_files for f in filelist]
+#
+# The weights
+#
+
+# mcCommonWeight = 'XSWeight * SFweight2l * LepWPCut * LepWPSF * Jet_PUIDSF * btagSF * METFilter_MC * PromptGenLepMatch2l'
+
+
 
 
 mcCommonWeight = "XSWeight*SFweight*METFilter_MC*PromptGenLepMatch2l"

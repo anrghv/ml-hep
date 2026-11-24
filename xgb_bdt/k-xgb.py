@@ -21,7 +21,7 @@ if not ok:
 #-----------------------------------------------toggles
 # NEG_WEIGHT_MODE = "abs"
 # NEG_WEIGHT_MODE = "drop"
-N_FOLDS = 3
+N_FOLDS = 10
 SEED = 42
 OUTPUT_DIR = "/eos/user/a/araghav/xgboost_ml-hep"
 os.makedirs(OUTPUT_DIR, exist_ok=True)

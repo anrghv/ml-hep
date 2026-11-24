@@ -19,14 +19,14 @@ if not ok:
     raise RuntimeError("Failed to declare headers.h")
 
 #-----------------------------------------------toggles
-NEG_WEIGHT_MODE = "abs"
+# NEG_WEIGHT_MODE = "abs"
 # NEG_WEIGHT_MODE = "drop"
 N_FOLDS = 3
 SEED = 42
 OUTPUT_DIR = "/eos/user/a/araghav/xgboost_ml-hep"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-limitFiles = -1  # -1 for all files, 1 for testing
-# limitFiles = 1  
+# limitFiles = -1  # -1 for all files, 1 for testing
+limitFiles = 1  
 
 with open("configuration.py") as handles:
     exec(handles.read())
@@ -177,14 +177,14 @@ def load_dataset():
                 fold = rng.integers(0, N_FOLDS, size=n).astype(np.int32)
 
             # -------------Negative weight handling------------------------------------
-            if NEG_WEIGHT_MODE == "abs":
-                w = np.abs(w)
-            elif NEG_WEIGHT_MODE == "drop":
-                keep = w > 0
-                X, y, w, fold = X[keep], y[keep], w[keep], fold[keep]
-            else:
-                raise ValueError(f"Unknown NEG_WEIGHT_MODE: {NEG_WEIGHT_MODE}")
-            # --------------------------------------------------------------------------
+            # if NEG_WEIGHT_MODE == "abs":
+            #     w = np.abs(w)
+            # elif NEG_WEIGHT_MODE == "drop":
+            #     keep = w > 0
+            #     X, y, w, fold = X[keep], y[keep], w[keep], fold[keep]
+            # else:
+            #     raise ValueError(f"Unknown NEG_WEIGHT_MODE: {NEG_WEIGHT_MODE}")
+            # # --------------------------------------------------------------------------
 
             Xs.append(X)
             ys.append(y)
@@ -199,12 +199,22 @@ def load_dataset():
 
 def normalize_class_weights(y, w):
     """Rescale so each class has total weight = number of events in that class."""
+    """ how does it normalize?  For each class, sum the weights of events in that 
+        class, and then scale the weights so that the total weight for that class 
+        equals the number of events in that class. This is useful when you have
+        imbalanced classes and want to ensure that each class contributes equally
+        to the loss function during training. """
+        # how does it work?  It first creates a copy of the weights array w to avoid modifying the original weights.
+        # Then, for each class (0 and 1), it creates a boolean mask m that identifies the events belonging to that class.
+        # It calculates the total weight tot of the events in that class. If the total weight is greater than zero,
+        # it rescales the weights of the events in that class by dividing them by the total weight and multiplying by the number of events in that class (m.sum()).
+        # This ensures that the total weight for each class equals the number of events in that class.
     w = w.copy()
     for cls in [0, 1]:
-        m = y == cls
-        tot = w[m].sum()
+        m = y == cls # m is a boolean mask that identifies the events belonging to the current class (cls). It is True for events of class cls and False otherwise.
+        tot = w[m].sum() # tot is the total weight of the events in the current class (cls). It is calculated by summing the weights of the events where m is True (i.e., events belonging to class cls).
         if tot > 0:
-            w[m] = w[m] / tot * m.sum()
+            w[m] = w[m] / tot * m.sum() 
     return w
 
  
@@ -220,7 +230,7 @@ def runJob():
         print(f"  fold {k}: {m.sum():>9} events  (sig {np.sum(y[m] == 1)}, bkg {np.sum(y[m] == 0)})")
  
     np.savez(os.path.join(OUTPUT_DIR, f"xgb_Hgg_kfold{N_FOLDS}_dataset.npz"),
-             X=X, y=y, w=w, fold=fold, mvaVariables=np.array(mvaVariables))
+             X=X, y=y, w=w, fold=fold, mvaVariables=np.array(mvaVariables))        # Saving the dataset for future use the training, testing and raw weights 
  
     results = {}
     for config_name, params in XGB_CONFIGS.items():
@@ -231,8 +241,8 @@ def runJob():
         train_aucs, test_aucs, importances = [], [], []
  
         for k in range(N_FOLDS):
-            test_mask = fold == k
-            train_mask = ~test_mask
+            test_mask = fold == k               # test_mask is True for events in fold k, False otherwise
+            train_mask = ~test_mask             # train_mask is True for events not in fold k, False otherwise
  
             X_tr, y_tr, w_tr = X[train_mask], y[train_mask], w[train_mask]
             X_te, y_te, w_te = X[test_mask], y[test_mask], w[test_mask]

@@ -25,7 +25,8 @@ eleWP = 'mvaFall17V2Iso_WP90'
 muWP  = 'cut_Tight_HWWW'
 
 # import os
-header_path = "/afs/cern.ch/user/a/araghav/Analyses/Run3/ml-hep/xgb_bdt/"
+header_path = "/afs/cern.ch/user/a/araghav/Analysis/ml-hep/xgb_bdt/headers.h"
+# header_path = "/afs/cern.ch/user/a/araghav/Analysis/ml-hep/xgb_bdt/"
 # header_path = "/afs/cern.ch/user/a/araghav/Analyses/Run3/PlotsConfigurationsRun3/Hgg/2018UL/"
 # header_path = os.path.join(header_path, "headers.h")
 header_path = ("headers.h")

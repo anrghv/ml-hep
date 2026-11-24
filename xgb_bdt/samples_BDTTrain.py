@@ -96,25 +96,25 @@ signal_path = "/eos/user/a/amassiro/HIG/ZHggPostProc/Summer20UL18_106x_nAODv9_Fu
 
 samples = {}
 
-samples['Hgluglu'] = [
-    {'tag': 'Hgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHgg")),    # NLO sample: negative weights
-     'weight': "genWeight*0.8839*0.08187*0.033658*3", 'isSignal': True},
-]
+# samples['Hgluglu'] = [
+#     {'tag': 'Hgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHgg")),    # NLO sample: negative weights
+#      'weight': "genWeight*0.8839*0.08187*0.033658*3", 'isSignal': True},
+# ]
 
-samples['qqZHgluglu'] = [
-    {'tag': 'qqZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHllHgg")), # NLO sample: negative weights
-     'weight': "genWeight*0.7612*0.08187*0.033658*3", 'isSignal': True},
-]
+# samples['qqZHgluglu'] = [
+#     {'tag': 'qqZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ZHllHgg")), # NLO sample: negative weights
+#      'weight': "genWeight*0.7612*0.08187*0.033658*3", 'isSignal': True},
+# ]
 
 samples['ggZHgluglu'] = [
     {'tag': 'ggZHgluglu', 'files': flatten(nanoGetLocalSampleFiles(signal_path, "ggZHllHgg")), # Lo sample: positive weights
      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
 ]
 
-samples['ZH_HToGluGlu_ZToLL-M125'] = [
-    {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")), # NLO sample: negative weights
-     'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
-]
+# samples['ZH_HToGluGlu_ZToLL-M125'] = [
+#     {'tag': 'ggZHgluglu', 'files': flatten(nanoGetSampleFiles(mcDirectory, "ZH_HToGluGlu_ZToLL-M125")), # NLO sample: negative weights
+#      'weight': "genWeight*0.1227*0.08187*0.033658*3", 'isSignal': True},
+# ]
 
 samples['DY'] = [
     {'tag': 'DY', 'files': flatten(

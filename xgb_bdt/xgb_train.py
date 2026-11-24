@@ -115,15 +115,6 @@ mvaVariables = [
 
 PROCESS_SAMPLES = ["DY", "ZH_HToGluGlu_ZToLL-M125"]
 
-
-# if isDEV:
-#     # allowed_samples = set(TRAIN_SAMPLES + TEST_SAMPLES)
-#     allowed_samples = set(PROCESS_SAMPLES)
-#     for sampleName in list(samples.keys()):
-#         if sampleName not in allowed_samples:
-#             samples.pop(sampleName)
-
-
 # RDF HELPERS
 def alias_applies(sampleName, alias):
     if 'samples' not in alias:
@@ -222,19 +213,6 @@ XGB_CONFIGS = {
        "reg_lambda": 2.84898057839644
        }
 
-    # "xgb_tuned_4": {
-    #     "n_estimators": 600,
-    #     "max_depth": 3,
-    #     "learning_rate": 0.12154323374774018,
-    #     "min_child_weight": 8,
-    #     "gamma": 2.8567812963999484,
-    #     "subsample": 0.6907226513881366,
-    #     "colsample_bytree": 0.5535883729682609,
-    #     "colsample_bynode": 0.6615567046239513,
-    #     "reg_alpha": 0.31352699641664766,
-    #     "reg_lambda": 2.761264429359447,
-    # },
-
 }
 # MAIN
 def runJob():
@@ -245,28 +223,12 @@ def runJob():
 
     # LOAD EVENTS
     for sampleName, subentries in samples.items():
-    #     # if sampleName not in TRAIN_SAMPLES and sampleName not in TEST_SAMPLES:
-    #     if sampleName not in PROCESS_SAMPLES:
-    #         print(
-    #             f"WARNING: sample '{sampleName}' is not in "
-    #             "TRAIN_SAMPLES or TEST_SAMPLES, skipping"
-    #         )
-    #         continue
-
-        if structure[sampleName]['isData'] == 1:
+         if structure[sampleName]['isData'] == 1:
             continue
 
-        # if sampleName in TRAIN_SAMPLES:
-        #     bucket = "train"
-        # else:
-        #     bucket = "test"
 
         isSig = int(structure[sampleName]['isSignal'])
 
-        # print(
-        #     f"Processing sample: {sampleName} -> "
-        #     f"{bucket} ({len(subentries)} sub-entries)"
-        # )
         print(f"\nProcessing sample: {sampleName} (Splitting even/odds events)")
 
         for sub in subentries:

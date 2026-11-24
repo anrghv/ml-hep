@@ -25,8 +25,8 @@ N_FOLDS = 3
 SEED = 42
 OUTPUT_DIR = "/eos/user/a/araghav/xgboost_ml-hep"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-# limitFiles = -1  # -1 for all files, 1 for testing
-limitFiles = 1  
+limitFiles = -1  # -1 for all files, 1 for testing
+# limitFiles = 1  
 
 with open("configuration.py") as handles:
     exec(handles.read())
@@ -197,24 +197,35 @@ def load_dataset():
             np.concatenate(ws),
             np.concatenate(folds))
 
+# def normalize_class_weights(y, w):
+#     """Rescale so each class has total weight = number of events in that class."""
+#     """ how does it normalize?  For each class, sum the weights of events in that 
+#         class, and then scale the weights so that the total weight for that class 
+#         equals the number of events in that class. This is useful when you have
+#         imbalanced classes and want to ensure that each class contributes equally
+#         to the loss function during training. """
+#         # how does it work?  It first creates a copy of the weights array w to avoid modifying the original weights.
+#         # Then, for each class (0 and 1), it creates a boolean mask m that identifies the events belonging to that class.
+#         # It calculates the total weight tot of the events in that class. If the total weight is greater than zero,
+#         # it rescales the weights of the events in that class by dividing them by the total weight and multiplying by the number of events in that class (m.sum()).
+#         # This ensures that the total weight for each class equals the number of events in that class.
+#     w = w.copy()
+#     for cls in [0, 1]:
+#         m = y == cls # m is a boolean mask that identifies the events belonging to the current class (cls). It is True for events of class cls and False otherwise.
+#         tot = w[m].sum() # tot is the total weight of the events in the current class (cls). It is calculated by summing the weights of the events where m is True (i.e., events belonging to class cls).
+#         if tot > 0:
+#             w[m] = w[m] / tot * m.sum() 
+#     return w
+
 def normalize_class_weights(y, w):
-    """Rescale so each class has total weight = number of events in that class."""
-    """ how does it normalize?  For each class, sum the weights of events in that 
-        class, and then scale the weights so that the total weight for that class 
-        equals the number of events in that class. This is useful when you have
-        imbalanced classes and want to ensure that each class contributes equally
-        to the loss function during training. """
-        # how does it work?  It first creates a copy of the weights array w to avoid modifying the original weights.
-        # Then, for each class (0 and 1), it creates a boolean mask m that identifies the events belonging to that class.
-        # It calculates the total weight tot of the events in that class. If the total weight is greater than zero,
-        # it rescales the weights of the events in that class by dividing them by the total weight and multiplying by the number of events in that class (m.sum()).
-        # This ensures that the total weight for each class equals the number of events in that class.
+    """TMVA NormMode=EqualNumEvents: signal sum(w) = background sum(w) = N_sig."""
     w = w.copy()
+    n_sig = (y == 1).sum()
     for cls in [0, 1]:
-        m = y == cls # m is a boolean mask that identifies the events belonging to the current class (cls). It is True for events of class cls and False otherwise.
-        tot = w[m].sum() # tot is the total weight of the events in the current class (cls). It is calculated by summing the weights of the events where m is True (i.e., events belonging to class cls).
+        m = y == cls
+        tot = w[m].sum()
         if tot > 0:
-            w[m] = w[m] / tot * m.sum() 
+            w[m] = w[m] / tot * n_sig
     return w
 
  
@@ -262,9 +273,43 @@ def runJob():
  
             print(f"  fold {k}: train AUC {tr_auc:.4f} | test AUC {te_auc:.4f} | diff {tr_auc - te_auc:.4f}")
  
-            with open(os.path.join(OUTPUT_DIR, f"xgb_Hgg_{config_name}_kfold{N_FOLDS}_fold{k}.pkl"), "wb") as f:
-                pickle.dump(clf, f)
-            del clf
+            # with open(os.path.join(OUTPUT_DIR, f"xgb_Hgg_{config_name}_kfold{N_FOLDS}_fold{k}.pkl"), "wb") as f:
+            #     pickle.dump(clf, f)
+            # del clf
+
+            base_name = f"xgb_Hgg_{config_name}_kfold{N_FOLDS}_fold{k}"
+            root_path = os.path.join(OUTPUT_DIR, base_name + ".root")
+            json_path = os.path.join(OUTPUT_DIR, base_name + ".json")
+            model_key = f"bdt_fold{k}"
+
+            # 1. save the TMVA RBDT compatible ROOT file
+            ROOT.TMVA.Experimental.SaveXGBoost(
+                clf, 
+                model_key,
+                root_path,
+                num_inputs=len(mvaVariables),
+            )
+
+            # # 2. save the model in JSON format
+            # clf.save_model(json_path)
+            clf.get_booster().save_model(json_path)
+
+            #3. Verify RBDT matches XGBoost on real test events
+            # temporary function to load the model from JSON and make predictions
+            X_check = X_te[:min(1000, len(X_te))].astype(np.float32)
+            py_check = clf.predict_proba(X_check)[:, 1]
+            bdt = ROOT.TMVA.Experimental.RBDT(model_key, root_path)
+
+            rbdt_check = np.array(
+                [bdt.Compute(ROOT.std.vector("float")(row.tolist()))[0] for row in X_check],
+                dtype=np.float32,
+            )
+            max_diff = float(np.max(np.abs(py_check - rbdt_check)))
+            print(f"  Maximum difference between XGBoost and RBDT: {max_diff:.2e}")
+            if max_diff > 1e-4:
+                raise RuntimeError(f"RBDT predictions do not match XGBoost predictions for {base_name} (max diff {max_diff})")
+            del bdt, clf, X_check, py_check, rbdt_check  # free memory 
+             # take a small subset for quick check
  
         train_aucs, test_aucs = np.array(train_aucs), np.array(test_aucs)
         mean_imp = np.mean(importances, axis=0)
